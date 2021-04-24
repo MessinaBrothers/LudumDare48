@@ -122,7 +122,7 @@ public class Main : Node2D {
     public override void _Process(float delta) {
         if (_state == State.CONFIRM_PROMPT) {
             if (Input.IsActionJustPressed("END_Y")) {
-                _animPlayer.Play("ConfirmEnd", -1, -1, true);
+                _animPlayer.Play("GameOver");
                 _state = State.GAME_OVER;
             } else if (Input.IsActionJustPressed("END_N")) {
                 //EventController.Send("update_bottom_text", "Are you finished?");
@@ -206,6 +206,7 @@ public class Main : Node2D {
                     }
                 } else if ((key.Scancode >= 'a' && key.Scancode <= 'z') || 
                     (key.Scancode >= 'A' && key.Scancode <= 'Z') ||
+                    (key.Scancode >= '0' && key.Scancode <= '9') ||
                     key.Scancode == ' ' || key.Scancode == ',' ||
                     (key.Scancode == '1' && Input.IsKeyPressed((int)KeyList.Shift)) ||
                     (key.Scancode == '/' && Input.IsKeyPressed((int)KeyList.Shift)) ||

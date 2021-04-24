@@ -159,10 +159,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, 19 ) ]
+"values": [ Vector2( 0, 0 ), Vector2( 0, 19 ), Vector2( 0, 19 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("BottomText:rect_position")
@@ -171,10 +171,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 40, 144 ), Vector2( 40, 183 ) ]
+"values": [ Vector2( 40, 144 ), Vector2( 40, 183 ), Vector2( 40, 183 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("Scaler/BottomEnding:position")
@@ -183,10 +183,46 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 2, 4 ),
+"times": PoolRealArray( 0, 4 ),
 "transitions": PoolRealArray( 1, 1 ),
-"update": 0,
+"update": 1,
 "values": [ Vector2( 0, 19 ), Vector2( 0, -68 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("WorldEnvironment:environment:glow_hdr_threshold")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 1, 2, 4, 7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 1.0, 0.0, 1.0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("ColorRect:color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 1, 2, 4, 7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("PlayerInput:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 4 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
 }
 
 [sub_resource type="Animation" id=8]
@@ -227,6 +263,18 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 0, 19 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("PlayerInput:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
 }
 
 [sub_resource type="Animation" id=9]
@@ -314,7 +362,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = 320.0
 margin_bottom = 180.0
-color = Color( 0.47451, 0.47451, 0.47451, 1 )
+color = Color( 0, 0, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -397,6 +445,7 @@ __meta__ = {
 scale = Vector2( 2, 2 )
 
 [node name="Bottom" type="Node2D" parent="Scaler"]
+position = Vector2( 0, 19 )
 
 [node name="ColorRect" type="ColorRect" parent="Scaler/Bottom"]
 margin_left = 2.0
@@ -441,6 +490,7 @@ PrintCharTime = 0.01
 position = Vector2( 0, 19 )
 
 [node name="ColorRect" type="ColorRect" parent="Scaler/BottomEnding"]
+visible = false
 margin_left = 2.0
 margin_top = 68.0
 margin_right = 158.0
@@ -458,14 +508,22 @@ centered = false
 
 [node name="EndText" type="RichTextLabel" parent="Scaler/BottomEnding"]
 margin_left = 31.0
-margin_top = 107.0
+margin_top = 91.5
 margin_right = 242.0
-margin_bottom = 205.0
+margin_bottom = 189.5
 rect_scale = Vector2( 0.5, 0.5 )
 custom_fonts/normal_font = SubResource( 11 )
 bbcode_enabled = true
-bbcode_text = "[center]The End"
-text = "The End"
+bbcode_text = "[center]The End.
+
+Thanks for playing!
+
+A game made for Ludum Dare 48"
+text = "The End.
+
+Thanks for playing!
+
+A game made for Ludum Dare 48"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -474,9 +532,9 @@ __meta__ = {
 
 [node name="BottomText" type="RichTextLabel" parent="."]
 margin_left = 40.0
-margin_top = 144.0
+margin_top = 183.0
 margin_right = 314.0
-margin_bottom = 177.0
+margin_bottom = 216.0
 custom_fonts/italics_font = SubResource( 7 )
 custom_fonts/normal_font = SubResource( 6 )
 bbcode_enabled = true
