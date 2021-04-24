@@ -89,6 +89,7 @@ public class Main : Node2D {
         RESULT_WAIT, RESULT_PROMPT,
         WRITE_ENDING_MOL, WRITE_ENDING_ANY,
         CONFIRM_WAIT, CONFIRM_PROMPT,
+        GAME_OVER,
     }
     public State _state;
 
@@ -121,7 +122,8 @@ public class Main : Node2D {
     public override void _Process(float delta) {
         if (_state == State.CONFIRM_PROMPT) {
             if (Input.IsActionJustPressed("END_Y")) {
-
+                _animPlayer.Play("ConfirmEnd", -1, -1, true);
+                _state = State.GAME_OVER;
             } else if (Input.IsActionJustPressed("END_N")) {
                 //EventController.Send("update_bottom_text", "Are you finished?");
                 EventController.Send("show_arrow", true);
@@ -133,6 +135,7 @@ public class Main : Node2D {
                 case State.DISTRACTION_PROMPT:
                     ResetInput();
                     _animPlayer.Play("WriteReply");
+                    EventController.Send("update_glow", 0f);
                     UpdateAnswers(_prayAnswers);
                     _state = State.WRITE_REPLY;
                     EventController.Send("show_arrow", false);
@@ -204,12 +207,15 @@ public class Main : Node2D {
                 } else if ((key.Scancode >= 'a' && key.Scancode <= 'z') || 
                     (key.Scancode >= 'A' && key.Scancode <= 'Z') ||
                     key.Scancode == ' ' || key.Scancode == ',' ||
-                    key.Scancode == '.' || key.Scancode == '!' ||
-                    key.Scancode == '?') {
+                    (key.Scancode == '1' && Input.IsKeyPressed((int)KeyList.Shift)) ||
+                    (key.Scancode == '/' && Input.IsKeyPressed((int)KeyList.Shift)) ||
+                    key.Scancode == '.') {
                     _lastChar = key.Scancode;
                     _index += 1;
                     char c = (char)_lastChar;
                     if (Input.IsKeyPressed((int)KeyList.Shift) == false) c = Char.ToLower(c);
+                    if (key.Scancode == '1' && Input.IsKeyPressed((int)KeyList.Shift) == true) c = '!';
+                    if (key.Scancode == '/' && Input.IsKeyPressed((int)KeyList.Shift) == true) c = '?';
                     _input += c;
                     EventController.Send("update_player_input_force", _input);
                 }
@@ -226,6 +232,7 @@ public class Main : Node2D {
                     _animPlayer.Play("Distraction");
                     _state = State.DISTRACTION_WAIT;
                 }
+                EventController.Send("update_glow", 0.5f * _input.Length / MOL_PROMPT.Length);
                 break;
             case State.WRITE_REPLY:
                 if (HandleInput(true) == true) {
@@ -240,6 +247,7 @@ public class Main : Node2D {
                 if (HandleInput(true) == true) {
                     _state = State.WRITE_ENDING_ANY;
                 }
+                EventController.Send("update_glow", 1f * _input.Length / MOL_PROMPT.Length);
                 break;
             case State.WRITE_ENDING_ANY:
                 HandleInput(false);

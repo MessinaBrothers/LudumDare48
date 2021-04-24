@@ -7,7 +7,12 @@ public class PlayerInput : RichTextLabel {
     [Export]
     public string ColorFaded = "393939";
 
+    private static readonly Color COLOR_DUMMY = new Color(0.31f, 0.32f, 0.33f);
+
     private List<string> _validAnswers;
+
+    private Color _colorOrig = COLOR_DUMMY;
+    private Color _colorGlow = new Color(1f, 1f, 1f);
 
     public override void _EnterTree() {
         EventController.CommandEvent += HandleCommand;
@@ -42,6 +47,12 @@ public class PlayerInput : RichTextLabel {
             if (args.Length == 1) return;
             if (args[1] is string s) {
                 BbcodeText = "[color=#ffffff]" + s;
+            }
+        } else if ("update_glow".Equals(args[0])) {
+            if (args.Length == 1) return;
+            if (args[1] is float f) {
+                if (_colorOrig == COLOR_DUMMY) _colorOrig = SelfModulate;
+                SelfModulate = _colorOrig.LinearInterpolate(_colorGlow, f);
             }
         }
     }

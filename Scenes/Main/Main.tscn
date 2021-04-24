@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://scenes/main/Main.cs" type="Script" id=1]
 [ext_resource path="res://assets/fonts/gothic_pixel.ttf" type="DynamicFontData" id=2]
@@ -6,7 +6,6 @@
 [ext_resource path="res://assets/textures/border_bottom.png" type="Texture" id=4]
 [ext_resource path="res://assets/textures/icons/armageddon.png" type="Texture" id=5]
 [ext_resource path="res://scenes/color_updater/ColorUpdater.tscn" type="PackedScene" id=6]
-[ext_resource path="res://scenes/main/TextIntro.cs" type="Script" id=7]
 [ext_resource path="res://scenes/main/PlayerInput.cs" type="Script" id=8]
 [ext_resource path="res://scenes/main/BottomText.cs" type="Script" id=9]
 [ext_resource path="res://assets/textures/arrow.png" type="Texture" id=10]
@@ -150,6 +149,46 @@ tracks/1/keys = {
 "values": [ Vector2( 40, 8 ), Vector2( 40, 183 ) ]
 }
 
+[sub_resource type="Animation" id=13]
+resource_name = "GameOver"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Scaler/Bottom:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 19 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BottomText:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 40, 144 ), Vector2( 40, 183 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Scaler/BottomEnding:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 2, 4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 19 ), Vector2( 0, -68 ) ]
+}
+
 [sub_resource type="Animation" id=8]
 resource_name = "Load"
 length = 0.1
@@ -176,6 +215,18 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 40, 183 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Scaler/BottomEnding:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 19 ) ]
 }
 
 [sub_resource type="Animation" id=9]
@@ -248,22 +299,28 @@ tracks/1/keys = {
 "values": [ Vector2( 0, -68 ), Vector2( 0, 0 ) ]
 }
 
+[sub_resource type="Environment" id=18]
+background_mode = 4
+glow_enabled = true
+glow_strength = 1.54
+glow_blend_mode = 1
+
 [node name="Main" type="Node2D"]
 script = ExtResource( 1 )
-PrimaryColor = Color( 1, 0.972549, 0.701961, 1 )
+PrimaryColor = Color( 0.65098, 0.639216, 0.470588, 1 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = 320.0
 margin_bottom = 180.0
-color = Color( 0, 0, 0, 1 )
+color = Color( 0.47451, 0.47451, 0.47451, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TextIntro" type="Label" parent="."]
-modulate = Color( 0.223529, 0.223529, 0.223529, 1 )
+visible = false
 margin_left = 6.0
 margin_top = 6.0
 margin_right = 314.0
@@ -271,7 +328,6 @@ margin_bottom = 136.0
 custom_fonts/font = SubResource( 1 )
 text = "The Meaning of Life is"
 autowrap = true
-script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -381,6 +437,41 @@ PrintCharTime = 0.01
 
 [node name="ColorUpdater" parent="Scaler/Bottom/ResultText" instance=ExtResource( 6 )]
 
+[node name="BottomEnding" type="Node2D" parent="Scaler"]
+position = Vector2( 0, 19 )
+
+[node name="ColorRect" type="ColorRect" parent="Scaler/BottomEnding"]
+margin_left = 2.0
+margin_top = 68.0
+margin_right = 158.0
+margin_bottom = 158.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Edge" type="Sprite" parent="Scaler/BottomEnding"]
+texture = ExtResource( 4 )
+centered = false
+
+[node name="ColorUpdater" parent="Scaler/BottomEnding/Edge" instance=ExtResource( 6 )]
+
+[node name="EndText" type="RichTextLabel" parent="Scaler/BottomEnding"]
+margin_left = 31.0
+margin_top = 107.0
+margin_right = 242.0
+margin_bottom = 205.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/normal_font = SubResource( 11 )
+bbcode_enabled = true
+bbcode_text = "[center]The End"
+text = "The End"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorUpdater" parent="Scaler/BottomEnding/EndText" instance=ExtResource( 6 )]
+
 [node name="BottomText" type="RichTextLabel" parent="."]
 margin_left = 40.0
 margin_top = 144.0
@@ -413,6 +504,8 @@ texture = ExtResource( 10 )
 script = ExtResource( 11 )
 Time = 0.5
 
+[node name="ColorUpdater" parent="Arrow" instance=ExtResource( 6 )]
+
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
 current = true
@@ -423,6 +516,10 @@ autoplay = "Load"
 anims/ConfirmEnd = SubResource( 12 )
 anims/Distraction = SubResource( 3 )
 anims/DistractionDisappear = SubResource( 5 )
+anims/GameOver = SubResource( 13 )
 anims/Load = SubResource( 8 )
 anims/Response = SubResource( 9 )
 anims/WriteReply = SubResource( 4 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 18 )
