@@ -30,13 +30,11 @@ public class Arrow : Sprite {
                 _timer -= Time;
                 Visible = !Visible;
             }
-        }
-    }
-    
-    public override void _UnhandledKeyInput(InputEventKey key) {
-        if (key.Scancode == (uint)KeyList.Enter && key.Pressed == true) {
-            _isOn = false;
-            Visible = false;
+
+            if (Input.IsActionJustPressed("confirm")) {
+                _isOn = false;
+                Visible = false;
+            }
         }
     }
 
