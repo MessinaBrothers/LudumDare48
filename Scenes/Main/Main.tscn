@@ -420,6 +420,7 @@ script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+ColorFaded = "6c6c6c"
 
 [node name="ColorUpdater" parent="PlayerInput" instance=ExtResource( 6 )]
 
