@@ -66,7 +66,6 @@ public class PlayerInput : RichTextLabel {
                 }
             }
         }
-        GD.Print("formatted: " + s);
         BbcodeText = s;
     }
 

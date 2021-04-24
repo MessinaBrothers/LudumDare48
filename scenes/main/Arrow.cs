@@ -9,18 +9,16 @@ public class Arrow : Sprite {
     private bool _isOn = false;
     private float _timer = 0f;
 
+    public override void _EnterTree() {
+        EventController.CommandEvent += HandleCommand;
+    }
+
+    public override void _ExitTree() {
+        EventController.CommandEvent += HandleCommand;
+    }
+
     public override void _Ready() {
         Visible = false;
-    }
-
-    public void Start() {
-        _isOn = true;
-        _timer = 0;
-        Visible = true;
-    }
-
-    public void Stop() {
-        _isOn = false;
     }
 
     public override void _Process(float delta) {
@@ -30,10 +28,23 @@ public class Arrow : Sprite {
                 _timer -= Time;
                 Visible = !Visible;
             }
+        }
+    }
 
-            if (Input.IsActionJustPressed("confirm")) {
-                _isOn = false;
-                Visible = false;
+    private void HandleCommand(object[] args) {
+        if (args.Length == 0) return;
+
+        if ("done_bottom_text".Equals(args[0]) || "done_result_text".Equals(args[0])) {
+            _isOn = true;
+            _timer = 0;
+            Visible = true;
+        } else if ("show_arrow".Equals(args[0])) {
+            if (args.Length == 1) return;
+            if (args[1] is bool b) {
+                if (b == false) {
+                    _isOn = false;
+                    Visible = false;
+                }
             }
         }
     }

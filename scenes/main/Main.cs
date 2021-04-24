@@ -4,30 +4,38 @@ using System.Collections.Generic;
 
 public class Main : Node2D {
 
+    private readonly uint SCORE_MAX = 1;
+
     struct Answer {
-        public Answer(string r, string t) {
-            response = r;
-            texture = t;
+        public Answer(string response, string result, string texture) {
+            this.response = response;
+            this.result = result;
+            this.texture = texture;
         }
         public string response;
+        public string result;
         public string texture;
     }
 
+    private Dictionary<string, Answer> _meaningOfLifeAnswer = new Dictionary<string, Answer>() {
+        //{ "The Meaning of Life is", new Answer("", "", "") },
+        { "The", new Answer("", "", "") },
+    };
     private Dictionary<string, Answer> _prayAnswers = new Dictionary<string, Answer>() {
-        { "Damn", new Answer("You damn them to hell. \"NNNNOOOOOooooooo\"", "test.png") },
-        { "Deny", new Answer("You deny their request. \"Well, thanks anyway!\"", "test.png") },
-        { "Grant", new Answer("You grant their request. \"Praise be God!\"", "test.png") },
-        { "Ignite", new Answer("They spontaneously combust. \"Aaaarrrrgggghhhhhh\"", "test.png") },
-        { "Ignore", new Answer("You ignore them. \"Hello? Are you there?\"", "test.png") },
-        { "Lightning", new Answer("You cast a lightning bolt to their face. \"Aaaarrrrgggghhhhhh\"", "test.png") },
-        { "Never", new Answer("Deny", "") },
-        { "No", new Answer("Deny", "") },
-        { "Okay", new Answer("Grant", "") },
-        { "Smite", new Answer("Ignite", "") },
-        { "Sure", new Answer("Grant", "") },
-        { "Yeah", new Answer("Grant", "") },
-        { "Yes", new Answer("Grant", "") },
-        { "Yup", new Answer("Grant", "") },
+        { "Damn", new Answer("You damn them to hell. \"NNNNOOOOOooooooo\"", "Your other followers are frightened, and more eager to please you.", "test.png") },
+        { "Deny", new Answer("You deny their request. \"Well, thanks anyway!\"", "They seem unperturbed.", "test.png") },
+        { "Grant", new Answer("You grant their request. \"Praise be God!\"", "They run to spread your Word.", "test.png") },
+        { "Ignite", new Answer("They spontaneously combust. \"Aaaarrrrgggghhhhhh\"", "Passersby witness this, and convert immediately.", "test.png") },
+        { "Ignore", new Answer("You ignore them. \"Hello? Are you there?\"", "Your followers are dismayed, and convert to a religion with a more responsive deity.", "test.png") },
+        { "Lightning", new Answer("You cast a lightning bolt to their face. \"Aaaarrrrgggghhhhhh\"", "Passersby witness this, and convert immediately.", "test.png") },
+        { "Never", new Answer("Deny", "", "") },
+        { "No", new Answer("Deny", "", "") },
+        { "Okay", new Answer("Grant", "", "") },
+        { "Smite", new Answer("Ignite", "", "") },
+        { "Sure", new Answer("Grant", "", "") },
+        { "Yeah", new Answer("Grant", "", "") },
+        { "Yes", new Answer("Grant", "", "") },
+        { "Yup", new Answer("Grant", "", "") },
     };
 
     // private List<Answer> _prayAnswers = new List<Answer>() {
@@ -59,18 +67,25 @@ public class Main : Node2D {
     // };
 
     private Dictionary<string, Answer> _validAnswers;
+    private Dictionary<Dictionary<string, Answer>, string> _correctAnswers;
     private List<string> _validKeys;
     private AnimationPlayer _animPlayer;
 
     private string _input = "";
     private int _index = 0;
     private uint _lastChar = 0;
+    private uint _score = 0;
 
     [Export]
     public Color PrimaryColor = new Color("123456");
 
     public enum State {
-        NONE, INTRO, RESPOND_PROMPT, RESPOND,
+        WRITE_MOL,
+        DISTRACTION_WAIT, DISTRACTION_PROMPT,
+        WRITE_REPLY,
+        RESPONSE_WAIT, RESPONSE_PROMPT,
+        RESULT_WAIT, RESULT_PROMPT,
+        WRITE_ENDING,
     }
     public State _state;
 
@@ -85,32 +100,57 @@ public class Main : Node2D {
     public override void _Ready() {
         _animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 
+        _correctAnswers = new Dictionary<Dictionary<string, Answer>, string>() {
+            { _prayAnswers, "Ignore" }
+        };
+
         EventController.Send("update_color", PrimaryColor);
         EventController.Send("toggle_intro_text", false);
 
-        _validAnswers = new Dictionary<string, Answer>() {
-            { "The", new Answer("", "") } };
-        UpdateAnswers(_validAnswers);
+        UpdateAnswers(_meaningOfLifeAnswer);
 
+        EventController.Send("update_result_text", "");
         EventController.Send("update_player_input", "");
 
-        _state = State.INTRO;
+        _state = State.WRITE_MOL;
     }
 
     public override void _Process(float delta) {
-        switch (_state) {
-            case State.NONE:
-                break;
-            case State.INTRO:
-                break;
-            case State.RESPOND_PROMPT:
-                if (Input.IsActionJustPressed("confirm")) {
+        if (Input.IsActionJustPressed("confirm")) {
+            switch (_state) {
+                case State.DISTRACTION_PROMPT:
                     ResetInput();
-                    _animPlayer.Play("Respond");
+                    _animPlayer.Play("WriteReply");
                     UpdateAnswers(_prayAnswers);
-                    _state = State.RESPOND;
-                }
-                break;
+                    _state = State.WRITE_REPLY;
+                    EventController.Send("show_arrow", false);
+                    break;
+                case State.RESPONSE_PROMPT:
+                    string result = _validAnswers[_input].result;
+                    if (_validAnswers.ContainsKey(result)) result = _validAnswers[result].result;
+                    EventController.Send("update_result_text", result);
+                    EventController.Send("start_result_text");
+                    EventController.Send("show_arrow", false);
+                    _state = State.RESULT_WAIT;
+                    break;
+                case State.RESULT_PROMPT:
+                    // score for correctness
+                    if (_input == _correctAnswers[_validAnswers]) {
+                        _score += 1;
+                        EventController.Send("update_score", _score, SCORE_MAX);
+
+                    }
+                    ResetInput();
+                    _animPlayer.Play("DistractionDisappear");
+                    UpdateAnswers(_meaningOfLifeAnswer);
+                    EventController.Send("show_arrow", false);
+                    if (_score == SCORE_MAX) {
+                        _state = State.WRITE_ENDING;
+                    } else {
+                        _state = State.WRITE_MOL;
+                    }
+                    break;
+            }
         }
     }
 
@@ -143,24 +183,21 @@ public class Main : Node2D {
 
 
         switch (_state) {
-            case State.NONE:
-                break;
-            case State.INTRO:
+            case State.WRITE_MOL:
                 if (HandleInput() == true) {
-                    EventController.Send("update_bottom_text", "A followers says \"Please help my son George tonight.\"");
+                    EventController.Send("update_result_text", "");
+                    EventController.Send("update_bottom_text", "A follower says \"Please help my son George tonight.\"");
                     _animPlayer.Play("Distraction");
-                    _state = State.NONE;
+                    _state = State.DISTRACTION_WAIT;
                 }
                 break;
-            case State.RESPOND_PROMPT:
-                break;
-            case State.RESPOND:
+            case State.WRITE_REPLY:
                 if (HandleInput() == true) {
                     string response = _validAnswers[_input].response;
                     if (_validAnswers.ContainsKey(response)) response = _validAnswers[response].response;
                     EventController.Send("update_bottom_text", response);
-                    EventController.Send("start_bottom_text");
-                    _state = State.NONE;
+                    _animPlayer.Play("Response");
+                    _state = State.RESPONSE_WAIT;
                 }
                 break;
         }
@@ -193,8 +230,14 @@ public class Main : Node2D {
     private void HandleCommand(object[] args) {
         if (args.Length == 0) return;
 
-        if ("state_respond".Equals(args[0])) {
-            _state = State.RESPOND_PROMPT;
+        if ("done_bottom_text".Equals(args[0])) {
+            if (_state == State.DISTRACTION_WAIT) {
+                _state = State.DISTRACTION_PROMPT;
+            } else if (_state == State.RESPONSE_WAIT) {
+                _state = State.RESPONSE_PROMPT;
+            }
+        } else if ("done_result_text".Equals(args[0])) {
+            _state = State.RESULT_PROMPT;
         }
     }
 }

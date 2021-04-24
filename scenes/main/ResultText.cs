@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class BottomText : RichTextLabel {
+public class ResultText : RichTextLabel {
 
     [Export]
     public float PrintCharTime = 1.0f;
@@ -32,7 +32,7 @@ public class BottomText : RichTextLabel {
 
             if (VisibleCharacters >= BbcodeText.Length) {
                 _isOn = false;
-                EventController.Send("done_bottom_text");
+                EventController.Send("done_result_text");
             }
         }
     }
@@ -44,7 +44,7 @@ public class BottomText : RichTextLabel {
     private void HandleCommand(object[] args) {
         if (args.Length == 0) return;
 
-        if ("update_bottom_text".Equals(args[0])) {
+        if ("update_result_text".Equals(args[0])) {
             if (args.Length == 1) return;
             if (args[1] is string s) {
                 if (s.Contains("\"")) {
@@ -52,13 +52,13 @@ public class BottomText : RichTextLabel {
                 }
                 string[] split = s.Split('\"');
                 if (split.Length == 1) {
-                    BbcodeText = s;
+                    BbcodeText = "[center]" + s;
                 } else {
-                    BbcodeText = split[0] + "[i]\" " + split[1] + " \"[/i]" + split[2];
+                    BbcodeText = "[center]" + split[0] + "[i]\" " + split[1] + " \"[/i]" + split[2];
                 }
                 VisibleCharacters = 0;
             }
-        } else if ("start_bottom_text".Equals(args[0])) {
+        } else if ("start_result_text".Equals(args[0])) {
             _isOn = true;
             _timer = PrintCharTime;
         }
