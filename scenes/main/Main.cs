@@ -4,7 +4,9 @@ using System.Collections.Generic;
 
 public class Main : Node2D {
 
-    private readonly uint SCORE_MAX = 1;
+    private static readonly uint SCORE_MAX = 1;
+    //private static readonly string MOL_PROMPT = "The Meaning of Life is";
+    private static readonly string MOL_PROMPT = "The";
 
     struct Answer {
         public Answer(string response, string result, string texture) {
@@ -18,8 +20,7 @@ public class Main : Node2D {
     }
 
     private Dictionary<string, Answer> _meaningOfLifeAnswer = new Dictionary<string, Answer>() {
-        //{ "The Meaning of Life is", new Answer("", "", "") },
-        { "The", new Answer("", "", "") },
+        { MOL_PROMPT, new Answer("", "", "") },
     };
     private Dictionary<string, Answer> _prayAnswers = new Dictionary<string, Answer>() {
         { "Damn", new Answer("You damn them to hell. \"NNNNOOOOOooooooo\"", "Your other followers are frightened, and more eager to please you.", "test.png") },
@@ -85,7 +86,7 @@ public class Main : Node2D {
         WRITE_REPLY,
         RESPONSE_WAIT, RESPONSE_PROMPT,
         RESULT_WAIT, RESULT_PROMPT,
-        WRITE_ENDING,
+        WRITE_ENDING_MOL, WRITE_ENDING_ANY,
     }
     public State _state;
 
@@ -145,7 +146,7 @@ public class Main : Node2D {
                     UpdateAnswers(_meaningOfLifeAnswer);
                     EventController.Send("show_arrow", false);
                     if (_score == SCORE_MAX) {
-                        _state = State.WRITE_ENDING;
+                        _state = State.WRITE_ENDING_MOL;
                     } else {
                         _state = State.WRITE_MOL;
                     }
@@ -155,27 +156,43 @@ public class Main : Node2D {
     }
 
     public override void _UnhandledKeyInput(InputEventKey key) {
-        bool HandleInput() {
-            if (key.Scancode == (uint)KeyList.Backspace && key.Pressed == false && _input.Length > 0) {
-                _input = _input.Left(_input.Length - 1);
-                _index -= 1;
-                EventController.Send("update_player_input", _input);
+        bool HandleInput(bool isMatch) {
+            if (key.Scancode == (uint)KeyList.Backspace && key.Pressed == true) {
+                _lastChar = key.Scancode;
+                if (_input.Length == 0) return false;
+                _input = _input.Left(--_index);
+                if (_input.Contains(MOL_PROMPT)) {
+                    EventController.Send("update_player_input_force", _input);
+                } else {
+                    EventController.Send("update_player_input", _input);
+                }
             } else if (key.Scancode == _lastChar && key.Pressed == false) {
                 _lastChar = 0;
             } else if (key.Pressed == true && key.Scancode != _lastChar) {
-                //GD.Print(key.Scancode + " should be " + (int)_validAnswers[0][_index]);
-                for (int i = 0; i < _validKeys.Count; i++) {
-                    if (_validKeys[i].StartsWith(_input) == false) continue;
+                if (isMatch == true) {
+                    for (int i = 0; i < _validKeys.Count; i++) {
+                        if (_validKeys[i].StartsWith(_input) == false) continue;
+                        if (key.Scancode == Char.ToUpper(_validKeys[i][_index])) {
+                            _lastChar = key.Scancode;
+                            _input += _validKeys[i][_index++];
+                            EventController.Send("update_player_input", _input);
 
-                    if (key.Scancode == Char.ToUpper(_validKeys[i][_index])) {
-                        _lastChar = key.Scancode;
-                        _input += _validKeys[i][_index++];
-                        EventController.Send("update_player_input", _input);
-
-                        if (_index >= _validKeys[i].Length) {
-                            return true;
+                            if (_index >= _validKeys[i].Length) {
+                                return true;
+                            }
                         }
                     }
+                } else if ((key.Scancode >= 'a' && key.Scancode <= 'z') || 
+                    (key.Scancode >= 'A' && key.Scancode <= 'Z') ||
+                    key.Scancode == ' ' || key.Scancode == ',' ||
+                    key.Scancode == '.' || key.Scancode == '!' ||
+                    key.Scancode == '?') {
+                    _lastChar = key.Scancode;
+                    _index += 1;
+                    char c = (char)_lastChar;
+                    if (Input.IsKeyPressed((int)KeyList.Shift) == false) c = Char.ToLower(c);
+                    _input += c;
+                    EventController.Send("update_player_input_force", _input);
                 }
             }
             return false;
@@ -184,7 +201,7 @@ public class Main : Node2D {
 
         switch (_state) {
             case State.WRITE_MOL:
-                if (HandleInput() == true) {
+                if (HandleInput(true) == true) {
                     EventController.Send("update_result_text", "");
                     EventController.Send("update_bottom_text", "A follower says \"Please help my son George tonight.\"");
                     _animPlayer.Play("Distraction");
@@ -192,12 +209,24 @@ public class Main : Node2D {
                 }
                 break;
             case State.WRITE_REPLY:
-                if (HandleInput() == true) {
+                if (HandleInput(true) == true) {
                     string response = _validAnswers[_input].response;
                     if (_validAnswers.ContainsKey(response)) response = _validAnswers[response].response;
                     EventController.Send("update_bottom_text", response);
                     _animPlayer.Play("Response");
                     _state = State.RESPONSE_WAIT;
+                }
+                break;
+            case State.WRITE_ENDING_MOL:
+                if (HandleInput(true) == true) {
+                    _state = State.WRITE_ENDING_ANY;
+                }
+                break;
+            case State.WRITE_ENDING_ANY:
+                HandleInput(false);
+
+                if (_input.Contains(MOL_PROMPT) == false) {
+                    _state = State.WRITE_ENDING_MOL;
                 }
                 break;
         }

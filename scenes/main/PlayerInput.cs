@@ -38,6 +38,11 @@ public class PlayerInput : RichTextLabel {
             if (args[1] is string s) {
                 FormatInput(s);
             }
+        } else if ("update_player_input_force".Equals(args[0])) {
+            if (args.Length == 1) return;
+            if (args[1] is string s) {
+                BbcodeText = "[color=#ffffff]" + s;
+            }
         }
     }
 
