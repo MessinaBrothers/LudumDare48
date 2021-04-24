@@ -1,0 +1,83 @@
+Ludum Dare 48 - Deeper and Deeper
+
+Game: Write down The Meaning of Life (or try to)
+Text game where you try to figure out the answer that solves the problem for good
+Most answers will work only temporarily
+Distractions: Prayers, Archangel, Son, Chosen People
+Emphasise: humor, creativity, content
+
+Dungeon Delve
+Ocean diving
+Deck drawing (digging deep)
+Dumb and Dumber
+Depth - 
+Inside the human body
+Deep conversation - interactive online message board.
+Ask 'Why?' seven times to get the real answer
+Rabbit Hole
+Dig Dug
+Spelunker
+F For Fake - Simpsons halloween special - How To Cook (for) Humans
+Getting more and more into trouble
+Interview with an artist, discussing the meaning of their work
+Journalist asking you questions
+Asking someone questions - Her Story
+
+You are an art restorer. Fix the art with various tools
+Have 7 paintings. Erase to find the hidden symbols
+1 painting shows 6 symbols in a pattern. Erase even more to find the reverse spell
+5 paintings can be erased to reveal hidden symbols underneath
+1 blank canvas. Draw the missing symbol to complete the ritual
+Drawers. Open to find your tools
+One drawer has a lock. Use a tool to open/break the lock. Find the pattern
+Layers of paint. Erase the top layers to reveal the bottom. Erase it all to find an etching on the canvas? Another painting? Blood?
+
+D For Deep
+Detective interviewing artist. Are they the real deal? Are you?
+
+
+
+Diary - lists the days that you spent in the workshop
+Fix a short-term problem. Ripple effect creates new problems
+
+
+
+Stomach rumbles. Check fridge. No food - forgot to re-order. Go back in time. Place order food.
+Plant is on its leaf. Go back in time. Water plant.
+Cat bowl appears. "Where's wiskers? Bowl has cobwebs." Go back in time. Feed it to keep it around.
+Note on the table. Your wife left. Go back in time. Write a letter.
+
+
+
+Tunnel Vision: fix "problems" in your life to get more work done
+Things keep interupting you. You can't focus. Deal with the problems.
+Group chat - friends keep texting. Cancel plans / leave group
+Cat - keeps meowing (wanting attention). Throw it outside
+Plant - needs constant water. Trash it
+Kids - "Look what I can do!" Give them a tablet
+
+Witch Theme
+Group chat - scrying orb that won't shut up
+Cat - familiar that says you're doing it all wrong
+Plant - venus fly trap constantly begging for water
+Wife - the devil. needs more sacrifices
+Kids - thrall/drudge/ghoul gains consciousness. rehypnotize
+
+God Theme
+Writing down the meaning of the universe, Chapter 1,138
+Look down at Holy Book. Write. Get distracted.
+Group chat - unanswered prayers. A bunch of thought bubbles. Select one: Grant/Deny. Select All: Grant/Deny. Solve: mark Do Not Ask Again
+Cat - angel looking for things to do. Enter someone's dream. Burn a bush. Solve: cast it down to hell
+Plant - wrongly mutated being that needs constant fixes. Remove tumors. Solve: say "You're made in my image. You are perfect."
+Wife - Son of God constantly saying how bad everyone is behaving, how Good he is. Reassure. Idly agree. Solve: sacrifice
+Kids - chosen ones are in trouble again. Smite them / sic a whale on them / turn them to dust / give them the Fruit of Knowledge
+
+
+FANTASTICAL
+Dwarves digging deeper and deeper
+Island paradise with darker undertones
+Inception planting memories in head
+
+Credits:
+Font Gothic Pixel: https://www.dafont.com/gothic-pixel.font?text=The+Meaning+of+Life+is
+Font Po$h Pixel https://www.dafont.com/po-h-pixels.font?text=The+Meaning+of+Life+is

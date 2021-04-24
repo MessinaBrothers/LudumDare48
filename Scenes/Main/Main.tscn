@@ -1,3 +1,131 @@
-[gd_scene format=2]
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://scenes/main/Main.cs" type="Script" id=1]
+[ext_resource path="res://assets/fonts/gothic_pixel.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://assets/textures/border.png" type="Texture" id=3]
+[ext_resource path="res://assets/textures/border_bottom.png" type="Texture" id=4]
+[ext_resource path="res://assets/textures/icons/armageddon.png" type="Texture" id=5]
+[ext_resource path="res://scenes/color_updater/ColorUpdater.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/main/TextIntro.cs" type="Script" id=7]
+[ext_resource path="res://scenes/main/PlayerInput.cs" type="Script" id=8]
+
+[sub_resource type="DynamicFont" id=1]
+extra_spacing_char = -1
+extra_spacing_space = 1
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=2]
+extra_spacing_char = -1
+extra_spacing_space = 1
+font_data = ExtResource( 2 )
 
 [node name="Main" type="Node2D"]
+script = ExtResource( 1 )
+PrimaryColor = Color( 1, 0.972549, 0.701961, 1 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 320.0
+margin_bottom = 180.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Scaler" type="Node2D" parent="."]
+scale = Vector2( 2, 2 )
+
+[node name="Border" type="Sprite" parent="Scaler"]
+texture = ExtResource( 3 )
+centered = false
+
+[node name="ColorUpdater" parent="Scaler/Border" instance=ExtResource( 6 )]
+
+[node name="Bottom" type="Node2D" parent="Scaler"]
+
+[node name="Edge" type="Sprite" parent="Scaler/Bottom"]
+texture = ExtResource( 4 )
+centered = false
+
+[node name="ColorUpdater" parent="Scaler/Bottom/Edge" instance=ExtResource( 6 )]
+
+[node name="Sprite" type="Sprite" parent="Scaler/Bottom"]
+position = Vector2( 3, 71 )
+texture = ExtResource( 5 )
+centered = false
+
+[node name="BottomText" type="Label" parent="."]
+margin_left = 40.0
+margin_top = 145.0
+margin_right = 316.0
+margin_bottom = 178.0
+custom_fonts/font = SubResource( 1 )
+text = "You bring about armageddon. More text to show off the second line. What shall I do?"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorUpdater" parent="BottomText" instance=ExtResource( 6 )]
+
+[node name="TextIntro" type="Label" parent="."]
+modulate = Color( 0.223529, 0.223529, 0.223529, 1 )
+margin_left = 6.0
+margin_top = 6.0
+margin_right = 314.0
+margin_bottom = 136.0
+custom_fonts/font = SubResource( 1 )
+text = "The Meaning of Life is"
+autowrap = true
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TopText" type="Label" parent="."]
+visible = false
+margin_left = 6.0
+margin_top = 6.0
+margin_right = 314.0
+margin_bottom = 136.0
+custom_fonts/font = SubResource( 1 )
+text = "This is the top text that appears when the player writes down stuff.
+The Meaning of Life is"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerInput" type="RichTextLabel" parent="."]
+margin_left = 6.0
+margin_top = 6.0
+margin_right = 314.0
+margin_bottom = 136.0
+custom_fonts/normal_font = SubResource( 2 )
+bbcode_enabled = true
+bbcode_text = "[color=#393939]a
+b
+[color=#ffffff]cef[/color]o
+d
+e
+f
+g"
+text = "a
+b
+cefo
+d
+e
+f
+g"
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorUpdater" parent="PlayerInput" instance=ExtResource( 6 )]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+zoom = Vector2( 0.25, 0.25 )
