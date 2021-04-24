@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://scenes/main/Main.cs" type="Script" id=1]
 [ext_resource path="res://assets/fonts/gothic_pixel.ttf" type="DynamicFontData" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://scenes/main/BottomText.cs" type="Script" id=9]
 [ext_resource path="res://assets/textures/arrow.png" type="Texture" id=10]
 [ext_resource path="res://scenes/main/Arrow.cs" type="Script" id=11]
+[ext_resource path="res://assets/fonts/poh_pixels.ttf" type="DynamicFontData" id=12]
 
 [sub_resource type="DynamicFont" id=1]
 extra_spacing_char = -1
@@ -20,6 +21,12 @@ font_data = ExtResource( 2 )
 [sub_resource type="DynamicFont" id=2]
 extra_spacing_char = -1
 extra_spacing_space = 1
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=7]
+font_data = ExtResource( 12 )
+
+[sub_resource type="DynamicFont" id=6]
 font_data = ExtResource( 2 )
 
 [sub_resource type="Animation" id=3]
@@ -224,18 +231,18 @@ centered = false
 
 [node name="ColorUpdater" parent="Scaler/Border" instance=ExtResource( 6 )]
 
-[node name="BottomText" type="Label" parent="."]
+[node name="BottomText" type="RichTextLabel" parent="."]
 margin_left = 40.0
 margin_top = 8.0
 margin_right = 316.0
 margin_bottom = 40.9999
-custom_fonts/font = SubResource( 1 )
-text = "You bring about armageddon. More text to show off the second line. What shall I do?"
-autowrap = true
+custom_fonts/italics_font = SubResource( 7 )
+custom_fonts/normal_font = SubResource( 6 )
+bbcode_enabled = true
+bbcode_text = "You bring about armageddon. More text to show off the second line. [i]\"What shall I do?\"[/i]"
+visible_characters = 139
+text = "You bring about armageddon. More text to show off the second line. \"What shall I do?\""
 script = ExtResource( 9 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 PrintCharTime = 0.05
 
 [node name="ColorUpdater" parent="BottomText" instance=ExtResource( 6 )]
