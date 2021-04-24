@@ -34,16 +34,20 @@ public class Arrow : Sprite {
     private void HandleCommand(object[] args) {
         if (args.Length == 0) return;
 
-        if ("done_bottom_text".Equals(args[0]) || "done_result_text".Equals(args[0])) {
+        void Start() {
             _isOn = true;
             _timer = 0;
             Visible = true;
-        } else if ("show_arrow".Equals(args[0])) {
+        }
+
+        if ("show_arrow".Equals(args[0])) {
             if (args.Length == 1) return;
             if (args[1] is bool b) {
                 if (b == false) {
                     _isOn = false;
                     Visible = false;
+                } else {
+                    Start();
                 }
             }
         }

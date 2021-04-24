@@ -76,6 +76,7 @@ public class Main : Node2D {
     private int _index = 0;
     private uint _lastChar = 0;
     private uint _score = 0;
+    private bool _canEndGame = false;
 
     [Export]
     public Color PrimaryColor = new Color("123456");
@@ -87,6 +88,7 @@ public class Main : Node2D {
         RESPONSE_WAIT, RESPONSE_PROMPT,
         RESULT_WAIT, RESULT_PROMPT,
         WRITE_ENDING_MOL, WRITE_ENDING_ANY,
+        CONFIRM_WAIT, CONFIRM_PROMPT,
     }
     public State _state;
 
@@ -117,7 +119,16 @@ public class Main : Node2D {
     }
 
     public override void _Process(float delta) {
-        if (Input.IsActionJustPressed("confirm")) {
+        if (_state == State.CONFIRM_PROMPT) {
+            if (Input.IsActionJustPressed("END_Y")) {
+
+            } else if (Input.IsActionJustPressed("END_N")) {
+                //EventController.Send("update_bottom_text", "Are you finished?");
+                EventController.Send("show_arrow", true);
+                _animPlayer.Play("ConfirmEnd", -1, -1, true);
+                _state = State.WRITE_ENDING_ANY;
+            }
+        } else if (Input.IsActionJustPressed("confirm")) {
             switch (_state) {
                 case State.DISTRACTION_PROMPT:
                     ResetInput();
@@ -149,6 +160,14 @@ public class Main : Node2D {
                         _state = State.WRITE_ENDING_MOL;
                     } else {
                         _state = State.WRITE_MOL;
+                    }
+                    break;
+                case State.WRITE_ENDING_ANY:
+                    if (_canEndGame == true) {
+                        EventController.Send("update_bottom_text", "Are you finished? Y or N");
+                        EventController.Send("show_arrow", false);
+                        _animPlayer.Play("ConfirmEnd");
+                        _state = State.CONFIRM_WAIT;
                     }
                     break;
             }
@@ -227,6 +246,12 @@ public class Main : Node2D {
 
                 if (_input.Contains(MOL_PROMPT) == false) {
                     _state = State.WRITE_ENDING_MOL;
+                } else if (_canEndGame == false && _input.Length == MOL_PROMPT.Length + 1) {
+                    _canEndGame = true;
+                    EventController.Send("show_arrow", true);
+                } else if (_canEndGame == true && _input.Length == MOL_PROMPT.Length) {
+                    _canEndGame = false;
+                    EventController.Send("show_arrow", false);
                 }
                 break;
         }
@@ -261,12 +286,17 @@ public class Main : Node2D {
 
         if ("done_bottom_text".Equals(args[0])) {
             if (_state == State.DISTRACTION_WAIT) {
+                EventController.Send("show_arrow", true);
                 _state = State.DISTRACTION_PROMPT;
             } else if (_state == State.RESPONSE_WAIT) {
+                EventController.Send("show_arrow", true);
                 _state = State.RESPONSE_PROMPT;
+            } else if (_state == State.CONFIRM_WAIT) {
+                _state = State.CONFIRM_PROMPT;
             }
         } else if ("done_result_text".Equals(args[0])) {
             _state = State.RESULT_PROMPT;
+            EventController.Send("show_arrow", true);
         }
     }
 }

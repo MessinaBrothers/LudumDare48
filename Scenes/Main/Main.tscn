@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://scenes/main/Main.cs" type="Script" id=1]
 [ext_resource path="res://assets/fonts/gothic_pixel.ttf" type="DynamicFontData" id=2]
@@ -36,6 +36,49 @@ font_data = ExtResource( 12 )
 
 [sub_resource type="DynamicFont" id=6]
 font_data = ExtResource( 2 )
+
+[sub_resource type="Animation" id=12]
+resource_name = "ConfirmEnd"
+length = 0.35
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("BottomText:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.35 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 40, 183 ), Vector2( 40, 144 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Scaler/Bottom:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.002, 0.35 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 19 ), Vector2( 0, 19 ), Vector2( 0, 0 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.35 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "AnimDistractionDone"
+} ]
+}
 
 [sub_resource type="Animation" id=3]
 resource_name = "Distraction"
@@ -284,7 +327,7 @@ margin_bottom = 174.0
 custom_fonts/italics_font = SubResource( 10 )
 custom_fonts/normal_font = SubResource( 2 )
 bbcode_enabled = true
-bbcode_text = "[right]Score: 0 [i]/[/i] 4"
+bbcode_text = "Score: 0 [i]/[/i] 4"
 text = "Score: 0 / 4"
 scroll_active = false
 script = ExtResource( 14 )
@@ -298,7 +341,6 @@ __meta__ = {
 scale = Vector2( 2, 2 )
 
 [node name="Bottom" type="Node2D" parent="Scaler"]
-position = Vector2( 0, 19 )
 
 [node name="ColorRect" type="ColorRect" parent="Scaler/Bottom"]
 margin_left = 2.0
@@ -341,9 +383,9 @@ PrintCharTime = 0.01
 
 [node name="BottomText" type="RichTextLabel" parent="."]
 margin_left = 40.0
-margin_top = 183.0
+margin_top = 144.0
 margin_right = 314.0
-margin_bottom = 216.0
+margin_bottom = 177.0
 custom_fonts/italics_font = SubResource( 7 )
 custom_fonts/normal_font = SubResource( 6 )
 bbcode_enabled = true
@@ -378,6 +420,7 @@ zoom = Vector2( 0.25, 0.25 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Load"
+anims/ConfirmEnd = SubResource( 12 )
 anims/Distraction = SubResource( 3 )
 anims/DistractionDisappear = SubResource( 5 )
 anims/Load = SubResource( 8 )

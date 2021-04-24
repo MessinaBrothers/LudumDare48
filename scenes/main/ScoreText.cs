@@ -26,7 +26,7 @@ public class ScoreText : RichTextLabel {
             if (args.Length < 2) return;
             if (args[1] is uint score && args[2] is uint max) {
                 BbcodeText = string.Format(
-                    "[right]Score: {0} [i]/[/i] {1}",
+                    "Score: {0} [i]/[/i] {1}",
                     score,
                     max);
 
