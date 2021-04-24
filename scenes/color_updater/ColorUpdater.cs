@@ -19,10 +19,10 @@ public class ColorUpdater : Node {
             if (args[1] is Color color) {
                 if (GetParent() is Node2D node) {
                     GD.Print("changing color for node " + node.Name);
-                    node.Modulate = color;
+                    node.SelfModulate = color;
                 } else if (GetParent() is Control control) {
                     GD.Print("changing color for control " + control.Name);
-                    control.Modulate = color;
+                    control.SelfModulate = color;
                 }
             }
         }

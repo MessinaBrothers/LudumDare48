@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://scenes/main/Main.cs" type="Script" id=1]
 [ext_resource path="res://assets/fonts/gothic_pixel.ttf" type="DynamicFontData" id=2]
@@ -8,6 +8,9 @@
 [ext_resource path="res://scenes/color_updater/ColorUpdater.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/main/TextIntro.cs" type="Script" id=7]
 [ext_resource path="res://scenes/main/PlayerInput.cs" type="Script" id=8]
+[ext_resource path="res://scenes/main/BottomText.cs" type="Script" id=9]
+[ext_resource path="res://assets/textures/arrow.png" type="Texture" id=10]
+[ext_resource path="res://scenes/main/Arrow.cs" type="Script" id=11]
 
 [sub_resource type="DynamicFont" id=1]
 extra_spacing_char = -1
@@ -18,6 +21,104 @@ font_data = ExtResource( 2 )
 extra_spacing_char = -1
 extra_spacing_space = 1
 font_data = ExtResource( 2 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "Distraction"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("Scaler/Bottom:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 19 ), Vector2( 0, -68 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BottomText:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 40, 183 ), Vector2( 40, 8 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.6 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "AnimDistractionDone"
+} ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "DistractionDisappear"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Scaler/Bottom:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 19 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BottomText:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 40, 183 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "Respond"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("BottomText:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 40, 8 ), Vector2( 40, 144 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Scaler/Bottom:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -68 ), Vector2( 0, 0 ) ]
+}
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 1 )
@@ -32,42 +133,6 @@ color = Color( 0, 0, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Scaler" type="Node2D" parent="."]
-scale = Vector2( 2, 2 )
-
-[node name="Border" type="Sprite" parent="Scaler"]
-texture = ExtResource( 3 )
-centered = false
-
-[node name="ColorUpdater" parent="Scaler/Border" instance=ExtResource( 6 )]
-
-[node name="Bottom" type="Node2D" parent="Scaler"]
-
-[node name="Edge" type="Sprite" parent="Scaler/Bottom"]
-texture = ExtResource( 4 )
-centered = false
-
-[node name="ColorUpdater" parent="Scaler/Bottom/Edge" instance=ExtResource( 6 )]
-
-[node name="Sprite" type="Sprite" parent="Scaler/Bottom"]
-position = Vector2( 3, 71 )
-texture = ExtResource( 5 )
-centered = false
-
-[node name="BottomText" type="Label" parent="."]
-margin_left = 40.0
-margin_top = 145.0
-margin_right = 316.0
-margin_bottom = 178.0
-custom_fonts/font = SubResource( 1 )
-text = "You bring about armageddon. More text to show off the second line. What shall I do?"
-autowrap = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ColorUpdater" parent="BottomText" instance=ExtResource( 6 )]
 
 [node name="TextIntro" type="Label" parent="."]
 modulate = Color( 0.223529, 0.223529, 0.223529, 1 )
@@ -125,7 +190,85 @@ __meta__ = {
 
 [node name="ColorUpdater" parent="PlayerInput" instance=ExtResource( 6 )]
 
+[node name="Scaler" type="Node2D" parent="."]
+scale = Vector2( 2, 2 )
+
+[node name="Bottom" type="Node2D" parent="Scaler"]
+
+[node name="ColorRect" type="ColorRect" parent="Scaler/Bottom"]
+margin_left = 2.0
+margin_top = 68.0
+margin_right = 158.0
+margin_bottom = 158.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Edge" type="Sprite" parent="Scaler/Bottom"]
+texture = ExtResource( 4 )
+centered = false
+
+[node name="ColorUpdater" parent="Scaler/Bottom/Edge" instance=ExtResource( 6 )]
+
+[node name="Sprite" type="Sprite" parent="Scaler/Bottom"]
+position = Vector2( 3, 71 )
+texture = ExtResource( 5 )
+centered = false
+
+[node name="Border" type="Sprite" parent="Scaler"]
+texture = ExtResource( 3 )
+centered = false
+
+[node name="ColorUpdater" parent="Scaler/Border" instance=ExtResource( 6 )]
+
+[node name="BottomText" type="Label" parent="."]
+margin_left = 40.0
+margin_top = 144.0
+margin_right = 316.0
+margin_bottom = 177.0
+custom_fonts/font = SubResource( 1 )
+text = "You bring about armageddon. More text to show off the second line. What shall I do?"
+autowrap = true
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+PrintCharTime = 0.05
+
+[node name="ColorUpdater" parent="BottomText" instance=ExtResource( 6 )]
+
+[node name="RespondText" type="Label" parent="BottomText"]
+visible = false
+margin_left = -33.0
+margin_top = 33.0
+margin_right = 243.0
+margin_bottom = 65.9999
+custom_fonts/font = SubResource( 1 )
+text = "1 Respond
+2 Ignore"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorUpdater" parent="BottomText/RespondText" instance=ExtResource( 6 )]
+
+[node name="Arrow" type="Sprite" parent="BottomText"]
+position = Vector2( 268, 26 )
+texture = ExtResource( 10 )
+script = ExtResource( 11 )
+Time = 0.5
+
+[node name="ColorUpdater" parent="BottomText/Arrow" instance=ExtResource( 6 )]
+
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
 current = true
 zoom = Vector2( 0.25, 0.25 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "DistractionDisappear"
+anims/Distraction = SubResource( 3 )
+anims/DistractionDisappear = SubResource( 5 )
+anims/Respond = SubResource( 4 )
