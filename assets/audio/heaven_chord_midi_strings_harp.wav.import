@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/heaven_chord_midi_strings_harp.wav-8f46c47990f823c55463cf08d67cf926.sample"
+
+[deps]
+
+source_file="res://assets/audio/heaven_chord_midi_strings_harp.wav"
+dest_files=[ "res://.import/heaven_chord_midi_strings_harp.wav-8f46c47990f823c55463cf08d67cf926.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

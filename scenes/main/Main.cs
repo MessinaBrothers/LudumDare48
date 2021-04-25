@@ -5,8 +5,8 @@ using System.Collections.Generic;
 public class Main : Node2D {
 
     private static readonly uint SCORE_MAX = 3;
-    //private static readonly string MOL_PROMPT = "The Meaning of Life is";
-    private static readonly string MOL_PROMPT = "The";
+    private static readonly int PORTRAIT_MAX_INDEX = 3;
+    private static readonly string MOL_PROMPT = "The Meaning of Life is";
 
     struct Answer {
         public Answer(string response, string result, string texture) {
@@ -23,12 +23,12 @@ public class Main : Node2D {
         { MOL_PROMPT, new Answer("", "", "") },
     };
     private static Dictionary<string, Answer> _prayAnswers = new Dictionary<string, Answer>() {
-        { "Damn", new Answer("You damn them to hell. \"NNNNOOOOOooooooo\"", "Your other followers are frightened, and more eager to please you.", "test.png") },
-        { "Deny", new Answer("You deny their request. \"Well, thanks anyway!\"", "They seem unperturbed.", "test.png") },
-        { "Grant", new Answer("You grant their request. \"Praise be God!\"", "They run to spread your Word.", "test.png") },
-        { "Ignite", new Answer("They spontaneously combust. \"Aaaarrrrgggghhhhhh\"", "Passersby witness this, and convert immediately.", "test.png") },
-        { "Ignore", new Answer("You ignore them. \"Hello? Are you there?\"", "Your followers are dismayed, and convert to a religion with a more responsive deity.", "test.png") },
-        { "Lightning", new Answer("You cast a lightning bolt to their face. \"Aaaarrrrgggghhhhhh\"", "Passersby witness this, and convert immediately.", "test.png") },
+        { "Damn", new Answer("You damn them to hell. \"NNNNOOOOOooooooo\"", "Your other followers are frightened, and more eager to please you.", "0x3") },
+        { "Deny", new Answer("You deny their request. \"Well, thanks anyway!\"", "They seem unperturbed.", "2x3") },
+        { "Grant", new Answer("You grant their request. \"Praise be God!\"", "They run to spread your Word.", "4x3") },
+        { "Ignite", new Answer("They spontaneously combust. \"Aaaarrrrgggghhhhhh\"", "Passersby witness this, and convert immediately.", "0x3") },
+        { "Ignore", new Answer("You ignore them. \"Hello? Are you there?\"", "Your followers are dismayed, and convert to a religion with a more responsive deity.", "6x3") },
+        { "Lightning", new Answer("\"Aaaarrrrgggghhhhhh\" Your lightning bolt hits them right in the face. ", "Passersby witness this, and convert immediately.", "0x4") },
         { "Never", new Answer("Deny", "", "") },
         { "No", new Answer("Deny", "", "") },
         { "Okay", new Answer("Grant", "", "") },
@@ -40,37 +40,37 @@ public class Main : Node2D {
         { "Yup", new Answer("Grant", "", "") },
     };
     private static Dictionary<string, Answer> _angelAnswers = new Dictionary<string, Answer>() {
-        { "Cast", new Answer("Hell", "", "test.png") },
-        { "Defend", new Answer("Defend the chosen ones in their hour of conflict. \"On it, my Lord!\"", "That should keep her busy.", "test.png") },
-        { "Descend", new Answer("Descend at the hour of death. \"Yes, my Lord!\"", "That should keep her busy.", "test.png") },
-        { "Dream", new Answer("Appear in a dream. \"Yes, my Lord!\"", "That should keep her busy.", "test.png") },
-        { "Dragon", new Answer("Slay", "", "test.png") },
-        { "Dust", new Answer("Turn a city into dust. \"Yes, my Lord!\"", "That should keep her busy.", "test.png") },
-        { "Expel", new Answer("Hell", "", "test.png") },
-        { "Heal", new Answer("There is a plague. Go cure the people. \"Yes, my Lord!\"", "That should keep her busy.", "test.png") },
-        { "Hell", new Answer("You cast your archangel into Hell. \"Oof!\"", "That should shut her up!", "test.png") },
-        { "Herald", new Answer("Go and herald your replacement. \"Yes, my Lord!\"", "Your archangel retires, but another soon replaces her. Damn it.", "test.png") },
-        { "Safeguard", new Answer("Safeguard against the wickedness. \"Yes, my Lord!\"", "Whatever that means.", "test.png") },
-        { "Scale", new Answer("Weigh a soul on that perfect scale of yours. \"Yes, my Lord!\"", "Where did he get that thing, anyway?", "test.png") },
-        { "Slay", new Answer("Go slay a dragon. \"Yes, my Lord!\"", "Later, you remember that dragons do not exist.", "test.png") },
-        { "Smite", new Answer("Go and smite someone. \"Yes, my Lord!\"", "The smitten deserved it. Probably.", "test.png") },
-        { "Wander", new Answer("Wander through the world for the ruin of souls. \"Yes, my Lord!\"", "So many ruins of souls in the world.", "test.png") },
-        { "Weigh", new Answer("Scale", "", "test.png") },
+        { "Cast", new Answer("Hell", "", "") },
+        { "Defend", new Answer("Defend the chosen ones in their hour of conflict. \"On it, my Lord!\"", "That should keep her busy.", "2x4") },
+        { "Descend", new Answer("Descend at the hour of death. \"Yes, my Lord!\"", "That should keep her busy.", "4x4") },
+        { "Dream", new Answer("Appear in a dream. \"Yes, my Lord!\"", "That should keep her busy.", "6x4") },
+        { "Dragon", new Answer("Slay", "", "") },
+        { "Dust", new Answer("Turn a city into dust. \"Yes, my Lord!\"", "That should keep her busy.", "4x4") },
+        { "Expel", new Answer("Hell", "", "") },
+        { "Heal", new Answer("There is a plague. Go cure the people. \"Yes, my Lord!\"", "That should keep her busy.", "2x4") },
+        { "Hell", new Answer("You cast your archangel into Hell. \"Oof!\"", "That should shut her up!", "0x3") },
+        { "Herald", new Answer("Go and herald your replacement. \"Yes, my Lord!\"", "Your archangel retires, but another soon replaces her. Damn it.", "4x4") },
+        { "Safeguard", new Answer("Safeguard against the wickedness. \"Yes, my Lord!\"", "Whatever that means.", "2x4") },
+        { "Scale", new Answer("Weigh a soul on that perfect scale of yours. \"Yes, my Lord!\"", "Where did he get that thing, anyway?", "2x4") },
+        { "Slay", new Answer("Go slay a dragon. \"Yes, my Lord!\"", "Later, you remember that dragons do not exist.", "4x4") },
+        { "Smite", new Answer("Go and smite someone. \"Yes, my Lord!\"", "The smitten deserved it. Probably.", "4x4") },
+        { "Wander", new Answer("Wander through the world for the ruin of souls. \"Yes, my Lord!\"", "So many ruins of souls in the world.", "4x4") },
+        { "Weigh", new Answer("Scale", "", "") },
     };
     private static Dictionary<string, Answer> _sonAnswers = new Dictionary<string, Answer>() {
-        { "Agree", new Answer("You idly agree, which seems to please him. Idiot.", "He seems content. For now.", "test.png") },
-        { "Crucify", new Answer("Sacrifice", "", "test.png") },
-        { "Die", new Answer("Kill", "", "test.png") },
-        { "Disagree", new Answer("You disagree with him, but he does not seem to listen.", "He seems content. For now.", "test.png") },
-        { "Ignore", new Answer("You ignore him.", "He huffs and puffs and leaves, eventually. He will be back.", "test.png") },
-        { "Kill", new Answer("You cast a lightning bolt to his face. \"Arrrgggghhh\"", "Once the smoke clears, you are dismayed to see him still standing, more annoyed than ever. Stupid immortality.", "test.png") },
-        { "Lightning", new Answer("Kill", "", "test.png") },
-        { "Persuade", new Answer("You try to convince him otherwise, but he does not seem to listen.", "He seems content. For now.", "test.png") },
-        { "Reinforce", new Answer("You put on your dad hat and reinforce his beliefs.", "He seems content. For now.", "test.png") },
-        { "Sacrifice", new Answer("Go to Earth, my son, and sacrifice yourself to save humanity.", "He seems keen to the idea. You never hear from him again.", "test.png") },
-        { "Save", new Answer("Sacrifice", "", "test.png") },
-        { "Soothe", new Answer("You soothe his fragile ego.", "He seems content. For now.", "test.png") },
-        { "Smite", new Answer("Kill", "", "test.png") },
+        { "Agree", new Answer("You idly agree, which seems to please him. Idiot.", "He seems content. For now.", "0x0") },
+        { "Crucify", new Answer("Sacrifice", "", "0x0") },
+        { "Die", new Answer("Kill", "", "0x0") },
+        { "Disagree", new Answer("You disagree with him, but he does not seem to listen.", "He seems content. For now.", "0x0") },
+        { "Ignore", new Answer("You ignore him.", "He huffs and puffs and leaves, eventually. He will be back.", "0x0") },
+        { "Kill", new Answer("You cast a lightning bolt to his face. \"Arrrgggghhh\"", "Once the smoke clears, you are dismayed to see him still standing, more annoyed than ever. Stupid immortality.", "0x0") },
+        { "Lightning", new Answer("Kill", "", "0x0") },
+        { "Persuade", new Answer("You try to convince him otherwise, but he does not seem to listen.", "He seems content. For now.", "0x0") },
+        { "Reinforce", new Answer("You put on your dad hat and reinforce his beliefs.", "He seems content. For now.", "0x0") },
+        { "Sacrifice", new Answer("Go to Earth, my son, and sacrifice yourself to save humanity.", "He seems keen to the idea. You never hear from him again.", "0x0") },
+        { "Save", new Answer("Sacrifice", "", "0x0") },
+        { "Soothe", new Answer("You soothe his fragile ego.", "He seems content. For now.", "0x0") },
+        { "Smite", new Answer("Kill", "", "0x0") },
     };
     private Dictionary<Dictionary<string, Answer>, List<string>> _answerPrompts = new Dictionary<Dictionary<string, Answer>, List<string>>() {
         { _meaningOfLifeAnswer, new List<string>() {
@@ -114,12 +114,12 @@ public class Main : Node2D {
     };
 
     // private List<Answer> _prayAnswers = new List<Answer>() {
-    //     new Answer("Damn", "You damn them to hell. \"NNNNOOOOOooooooo\"", "test.png"),
-    //     new Answer("Deny", "You deny their request. \"Well, thanks anyway!\"", "test.png"),
-    //     new Answer("Grant", "You grant their request. \"Praise be God!\"", "test.png"),
-    //     new Answer("Ignite", "They spontaneously combust. \"Aaaarrrrgggghhhhhh\"", "test.png"),
-    //     new Answer("Ignore", "You ignore them. \"Hello? Are you there?\"", "test.png"),
-    //     new Answer("Lightning", "You cast a lightning bolt to their face. \"Aaaarrrrgggghhhhhh\"", "test.png"),
+    //     new Answer("Damn", "You damn them to hell. \"NNNNOOOOOooooooo\"", "0x0"),
+    //     new Answer("Deny", "You deny their request. \"Well, thanks anyway!\"", "0x0"),
+    //     new Answer("Grant", "You grant their request. \"Praise be God!\"", "0x0"),
+    //     new Answer("Ignite", "They spontaneously combust. \"Aaaarrrrgggghhhhhh\"", "0x0"),
+    //     new Answer("Ignore", "You ignore them. \"Hello? Are you there?\"", "0x0"),
+    //     new Answer("Lightning", "You cast a lightning bolt to their face. \"Aaaarrrrgggghhhhhh\"", "0x0"),
     //     new Answer("Never", "Deny", ""),
     //     new Answer("No", "Deny", ""),
     //     new Answer("Okay", "Grant", ""),
@@ -145,6 +145,7 @@ public class Main : Node2D {
     private Dictionary<Dictionary<string, Answer>, List<string>> _correctAnswers;
     private List<string> _validKeys;
     private AnimationPlayer _animPlayer;
+    private Random _rng = new Random();
 
     private string _input = "";
     private int _index = 0;
@@ -173,7 +174,7 @@ public class Main : Node2D {
     }
 
     public override void _ExitTree() {
-        EventController.CommandEvent += HandleCommand;
+        EventController.CommandEvent -= HandleCommand;
     }
 
     public override void _Ready() {
@@ -199,6 +200,16 @@ public class Main : Node2D {
     public override void _Process(float delta) {
         if (_state == State.CONFIRM_PROMPT) {
             if (Input.IsActionJustPressed("END_Y")) {
+                string finalAnswer = _input;
+                finalAnswer = finalAnswer.Right(MOL_PROMPT.Length);
+                finalAnswer = finalAnswer.Trim();
+                finalAnswer = finalAnswer.Capitalize();
+                if (finalAnswer.Length == 1) {
+                    finalAnswer = "" + char.ToUpper(finalAnswer[0]);
+                } else {
+                    finalAnswer = char.ToUpper(finalAnswer[0]) + finalAnswer.Substring(1);
+                }
+                EventController.Send("update_final_answer", finalAnswer);
                 _animPlayer.Play("GameOver");
                 _state = State.GAME_OVER;
             } else if (Input.IsActionJustPressed("END_N")) {
@@ -228,7 +239,7 @@ public class Main : Node2D {
                     break;
                 case State.RESULT_PROMPT:
                     // score for correctness
-                    if (_correctAnswers[_validAnswers].Contains(_input)) {
+                    if (_correctAnswers[_validAnswers].Contains(_input) || _correctAnswers[_validAnswers].Contains(_validAnswers[_input].response)) {
                         _score += 1;
                         EventController.Send("update_score", _score, SCORE_MAX);
 
@@ -277,6 +288,7 @@ public class Main : Node2D {
                             _lastChar = key.Scancode;
                             _input += _validKeys[i][_index++];
                             EventController.Send("update_player_input", _input);
+                            EventController.Send("play_instrument");
 
                             if (_index >= _validKeys[i].Length) {
                                 return true;
@@ -298,6 +310,7 @@ public class Main : Node2D {
                     if (key.Scancode == '/' && Input.IsKeyPressed((int)KeyList.Shift) == true) c = '?';
                     _input += c;
                     EventController.Send("update_player_input_force", _input);
+                    EventController.Send("play_instrument");
                 }
             }
             return false;
@@ -308,32 +321,39 @@ public class Main : Node2D {
             case State.WRITE_MOL:
                 if (HandleInput(true) == true) {
                     EventController.Send("update_result_text", "");
+                    int iconX = _rng.Next(PORTRAIT_MAX_INDEX);
                     // update valid answers
                     if (_score == 0) {
                         UpdateAnswers(_prayAnswers);
+                        EventController.UpdateIcon(iconX * 2, 0);
                     } else if (_score == 1) {
                         UpdateAnswers(_angelAnswers);
+                        EventController.UpdateIcon(iconX * 2, 1);
                     } else if (_score == 2) {
                         UpdateAnswers(_sonAnswers);
+                        EventController.UpdateIcon(iconX * 2, 2);
                     }
+                    EventController.Send("update_icon");
                     // get random prompt
                     if (_promptsIndex == _answerPrompts[_validAnswers].Count) {
                         _promptsIndex = 0;
                         List<string> prompts = _answerPrompts[_validAnswers];
-                        Utility.Shuffle(prompts, new Random());
+                        Utility.Shuffle(prompts, _rng);
                     }
                     string prompt = _answerPrompts[_validAnswers][_promptsIndex++];
                     EventController.Send("update_bottom_text", prompt);
                     _animPlayer.Play("Distraction");
                     _state = State.DISTRACTION_WAIT;
                 }
-                EventController.Send("update_glow", 0.5f * _input.Length / MOL_PROMPT.Length);
+                EventController.Send("update_glow", 0.75f * _input.Length / MOL_PROMPT.Length);
                 break;
             case State.WRITE_REPLY:
                 if (HandleInput(true) == true) {
-                    string response = _validAnswers[_input].response;
-                    if (_validAnswers.ContainsKey(response)) response = _validAnswers[response].response;
-                    EventController.Send("update_bottom_text", response);
+                    Answer answer = _validAnswers[_input];
+                    if (_validAnswers.ContainsKey(answer.response)) answer = _validAnswers[answer.response];
+                    EventController.Send("update_bottom_text", answer.response);
+                    string[] split = answer.texture.Split('x');
+                    EventController.UpdateIcon(int.Parse(split[0]), int.Parse(split[1]));
                     _animPlayer.Play("Response");
                     _state = State.RESPONSE_WAIT;
                 }
@@ -349,10 +369,10 @@ public class Main : Node2D {
 
                 if (_input.Contains(MOL_PROMPT) == false) {
                     _state = State.WRITE_ENDING_MOL;
-                } else if (_canEndGame == false && _input.Length == MOL_PROMPT.Length + 1) {
+                } else if (_canEndGame == false && _input.Trim().Length > MOL_PROMPT.Length) {
                     _canEndGame = true;
                     EventController.Send("show_arrow", true);
-                } else if (_canEndGame == true && _input.Length == MOL_PROMPT.Length) {
+                } else if (_canEndGame == true && _input.Trim().Length == MOL_PROMPT.Length) {
                     _canEndGame = false;
                     EventController.Send("show_arrow", false);
                 }
@@ -362,6 +382,10 @@ public class Main : Node2D {
 
     public void AnimDistractionDone() {
         EventController.Send("start_bottom_text");
+    }
+
+    public void AnimUpdateIcon() {
+        EventController.Send("update_icon");
     }
 
     // private List<string> GetKeyList(Dictionary<string, Answer> answers) {
@@ -379,6 +403,7 @@ public class Main : Node2D {
     }
 
     private void UpdateAnswers(Dictionary<string, Answer> answers) {
+        _lastChar = 0;
         _validAnswers = answers;
         _validKeys = new List<string>(answers.Keys);
         EventController.UpdateValidInputs(_validKeys);

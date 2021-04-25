@@ -1,12 +1,12 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://scenes/main/Main.cs" type="Script" id=1]
 [ext_resource path="res://assets/fonts/gothic_pixel.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://assets/textures/border.png" type="Texture" id=3]
 [ext_resource path="res://assets/textures/border_bottom.png" type="Texture" id=4]
-[ext_resource path="res://assets/textures/icons/armageddon.png" type="Texture" id=5]
+[ext_resource path="res://assets/textures/spritesheet.png" type="Texture" id=5]
 [ext_resource path="res://scenes/color_updater/ColorUpdater.tscn" type="PackedScene" id=6]
-[ext_resource path="res://assets/audio/heaven_chord_whistle_two.wav" type="AudioStream" id=7]
+[ext_resource path="res://assets/audio/music_end_chorus.wav" type="AudioStream" id=7]
 [ext_resource path="res://scenes/main/PlayerInput.cs" type="Script" id=8]
 [ext_resource path="res://scenes/main/BottomText.cs" type="Script" id=9]
 [ext_resource path="res://assets/textures/arrow.png" type="Texture" id=10]
@@ -14,6 +14,15 @@
 [ext_resource path="res://assets/fonts/poh_pixels.ttf" type="DynamicFontData" id=12]
 [ext_resource path="res://scenes/main/ResultText.cs" type="Script" id=13]
 [ext_resource path="res://scenes/main/ScoreText.cs" type="Script" id=14]
+[ext_resource path="res://scenes/main/Icon.cs" type="Script" id=15]
+[ext_resource path="res://scenes/main/InstrumentController.cs" type="Script" id=16]
+[ext_resource path="res://assets/audio/heaven_chord_midi_strings_harp.wav" type="AudioStream" id=17]
+[ext_resource path="res://assets/audio/heaven_chord_midi_strings_harp_c.ogg" type="AudioStream" id=18]
+[ext_resource path="res://assets/audio/heaven_chord_midi_strings_harp_d.ogg" type="AudioStream" id=19]
+[ext_resource path="res://assets/audio/heaven_chord_midi_strings_harp_e.ogg" type="AudioStream" id=20]
+[ext_resource path="res://assets/audio/heaven_chord_midi_strings_harp_b.ogg" type="AudioStream" id=21]
+[ext_resource path="res://assets/audio/heaven_chord_midi_strings_harp_g.ogg" type="AudioStream" id=22]
+[ext_resource path="res://scenes/main/EndText.cs" type="Script" id=23]
 
 [sub_resource type="DynamicFont" id=1]
 extra_spacing_char = -1
@@ -25,20 +34,22 @@ extra_spacing_char = -1
 extra_spacing_space = 1
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=10]
+[sub_resource type="DynamicFont" id=3]
 font_data = ExtResource( 12 )
 
-[sub_resource type="DynamicFont" id=11]
+[sub_resource type="DynamicFont" id=4]
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=7]
-font_data = ExtResource( 12 )
+[sub_resource type="DynamicFont" id=5]
+font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=6]
+font_data = ExtResource( 12 )
+
+[sub_resource type="DynamicFont" id=7]
 font_data = ExtResource( 2 )
 
-[sub_resource type="Animation" id=12]
-resource_name = "ConfirmEnd"
+[sub_resource type="Animation" id=8]
 length = 0.35
 step = 0.05
 tracks/0/type = "value"
@@ -80,8 +91,7 @@ tracks/2/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "Distraction"
+[sub_resource type="Animation" id=9]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("Scaler/Bottom:position")
@@ -122,8 +132,7 @@ tracks/2/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "Start"
+[sub_resource type="Animation" id=10]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("Scaler/Bottom:position")
@@ -150,9 +159,8 @@ tracks/1/keys = {
 "values": [ Vector2( 40, 8 ), Vector2( 40, 183 ) ]
 }
 
-[sub_resource type="Animation" id=13]
-resource_name = "GameOver"
-length = 10.0
+[sub_resource type="Animation" id=11]
+length = 20.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Scaler/Bottom:position")
 tracks/0/interp = 1
@@ -199,7 +207,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 1, 2, 4, 7 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 1.0, 1.0, 0.0, 1.0 ]
+"values": [ 1.0, 1.0, 0.0, 0.9 ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("ColorRect:color")
@@ -225,9 +233,46 @@ tracks/5/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/6/type = "method"
+tracks/6/path = NodePath("MusicEnd")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 4 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Scaler/BottomEnding/EndText:visible_characters")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 4, 7, 8, 9.9, 14 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0, 0, 33, 33, 101 ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Scaler/BottomEnding/EndText2:visible_characters")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 4, 16, 17 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0, 0, 48 ]
+}
 
-[sub_resource type="Animation" id=8]
-resource_name = "Load"
+[sub_resource type="Animation" id=12]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Scaler/Bottom:position")
@@ -278,8 +323,7 @@ tracks/3/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=9]
-resource_name = "Response"
+[sub_resource type="Animation" id=13]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Scaler/Bottom:position")
@@ -312,16 +356,18 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0.4 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0.4, 0.401 ),
+"transitions": PoolRealArray( 1, 1 ),
 "values": [ {
 "args": [  ],
 "method": "AnimDistractionDone"
+}, {
+"args": [  ],
+"method": "AnimUpdateIcon"
 } ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "WriteReply"
+[sub_resource type="Animation" id=14]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("BottomText:rect_position")
@@ -348,7 +394,7 @@ tracks/1/keys = {
 "values": [ Vector2( 0, -68 ), Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="Environment" id=18]
+[sub_resource type="Environment" id=15]
 background_mode = 4
 glow_enabled = true
 glow_strength = 1.54
@@ -396,6 +442,7 @@ __meta__ = {
 }
 
 [node name="PlayerInput" type="RichTextLabel" parent="."]
+visible = false
 margin_left = 6.0
 margin_top = 6.0
 margin_right = 314.0
@@ -430,7 +477,7 @@ margin_left = 6.0
 margin_top = 164.0
 margin_right = 314.0
 margin_bottom = 174.0
-custom_fonts/italics_font = SubResource( 10 )
+custom_fonts/italics_font = SubResource( 3 )
 custom_fonts/normal_font = SubResource( 2 )
 bbcode_enabled = true
 bbcode_text = "Score: 0 [i]/[/i] 4"
@@ -447,7 +494,6 @@ __meta__ = {
 scale = Vector2( 2, 2 )
 
 [node name="Bottom" type="Node2D" parent="Scaler"]
-position = Vector2( 0, 19 )
 
 [node name="ColorRect" type="ColorRect" parent="Scaler/Bottom"]
 margin_left = 2.0
@@ -469,6 +515,10 @@ centered = false
 position = Vector2( 3, 71 )
 texture = ExtResource( 5 )
 centered = false
+hframes = 2
+region_enabled = true
+region_rect = Rect2( 96, 64, 32, 16 )
+script = ExtResource( 15 )
 
 [node name="ResultText" type="RichTextLabel" parent="Scaler/Bottom"]
 margin_left = 31.0
@@ -476,7 +526,7 @@ margin_top = 107.0
 margin_right = 242.0
 margin_bottom = 205.0
 rect_scale = Vector2( 0.5, 0.5 )
-custom_fonts/normal_font = SubResource( 11 )
+custom_fonts/normal_font = SubResource( 4 )
 bbcode_enabled = true
 bbcode_text = "[center]Results go here"
 text = "Results go here"
@@ -508,37 +558,61 @@ centered = false
 
 [node name="ColorUpdater" parent="Scaler/BottomEnding/Edge" instance=ExtResource( 6 )]
 
-[node name="EndText" type="RichTextLabel" parent="Scaler/BottomEnding"]
-margin_left = 31.0
-margin_top = 91.5
-margin_right = 242.0
-margin_bottom = 189.5
+[node name="EndText" type="Label" parent="Scaler/BottomEnding"]
+margin_left = 15.5
+margin_top = 74.0
+margin_right = 274.5
+margin_bottom = 202.0
 rect_scale = Vector2( 0.5, 0.5 )
-custom_fonts/normal_font = SubResource( 11 )
+custom_fonts/font = SubResource( 5 )
+text = "You figured it out. The Meaning of Life.
+
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
+align = 1
+valign = 1
+autowrap = true
+percent_visible = 0.0
+script = ExtResource( 23 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EndText2" type="RichTextLabel" parent="Scaler/BottomEnding"]
+margin_left = 23.0
+margin_top = 95.0
+margin_right = 267.0
+margin_bottom = 223.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/normal_font = SubResource( 4 )
 bbcode_enabled = true
-bbcode_text = "[center]The End.
+bbcode_text = "[center]
+
+
+
+
 
 Thanks for playing!
-
 A game made for Ludum Dare 48"
-text = "The End.
+visible_characters = 0
+text = "
+
+
+
+
 
 Thanks for playing!
-
 A game made for Ludum Dare 48"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ColorUpdater" parent="Scaler/BottomEnding/EndText" instance=ExtResource( 6 )]
-
 [node name="BottomText" type="RichTextLabel" parent="."]
 margin_left = 40.0
-margin_top = 183.0
+margin_top = 144.0
 margin_right = 314.0
-margin_bottom = 216.0
-custom_fonts/italics_font = SubResource( 7 )
-custom_fonts/normal_font = SubResource( 6 )
+margin_bottom = 177.0
+custom_fonts/italics_font = SubResource( 6 )
+custom_fonts/normal_font = SubResource( 7 )
 bbcode_enabled = true
 bbcode_text = "You bring about armageddon. More text to show off the second line. [i]\"What shall I do?\"[/i]"
 visible_characters = 139
@@ -573,16 +647,21 @@ zoom = Vector2( 0.25, 0.25 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Load"
-anims/ConfirmEnd = SubResource( 12 )
-anims/Distraction = SubResource( 3 )
-anims/DistractionDisappear = SubResource( 5 )
-anims/GameOver = SubResource( 13 )
-anims/Load = SubResource( 8 )
-anims/Response = SubResource( 9 )
-anims/WriteReply = SubResource( 4 )
+anims/ConfirmEnd = SubResource( 8 )
+anims/Distraction = SubResource( 9 )
+anims/DistractionDisappear = SubResource( 10 )
+anims/GameOver = SubResource( 11 )
+anims/Load = SubResource( 12 )
+anims/Response = SubResource( 13 )
+anims/WriteReply = SubResource( 14 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 18 )
+environment = SubResource( 15 )
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="MusicEnd" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
+
+[node name="InstrumentController" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 17 )
+script = ExtResource( 16 )
+PlayerClips = [ ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 22 ), ExtResource( 21 ) ]

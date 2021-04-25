@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/heaven_chord_midi_strings_harp_e.ogg-9bb2584058ff1b7d6dbcb092d7ceaa6a.oggstr"
+
+[deps]
+
+source_file="res://assets/audio/heaven_chord_midi_strings_harp_e.ogg"
+dest_files=[ "res://.import/heaven_chord_midi_strings_harp_e.ogg-9bb2584058ff1b7d6dbcb092d7ceaa6a.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

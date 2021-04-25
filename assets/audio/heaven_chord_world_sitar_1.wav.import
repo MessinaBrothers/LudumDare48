@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/heaven_chord_world_sitar_1.wav-49a334347ee09569570a69c85346c6bc.sample"
+
+[deps]
+
+source_file="res://assets/audio/heaven_chord_world_sitar_1.wav"
+dest_files=[ "res://.import/heaven_chord_world_sitar_1.wav-49a334347ee09569570a69c85346c6bc.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

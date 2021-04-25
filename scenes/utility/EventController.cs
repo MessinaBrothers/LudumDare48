@@ -12,4 +12,8 @@ public class EventController : Node {
     public delegate void ValidInputEventHandler(List<string> validInputs);
     public static void UpdateValidInputs(List<string> validInputs) { if (ValidInputEvent != null) ValidInputEvent.Invoke(validInputs); }
 
+    public static event UpdateIconEventHandler UpdateIconEvent;
+    public delegate void UpdateIconEventHandler(int x, int y);
+    public static void UpdateIcon(int x, int y) { if (UpdateIconEvent != null) UpdateIconEvent.Invoke(x, y); }
+
 }

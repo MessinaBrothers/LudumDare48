@@ -14,7 +14,7 @@ public class Arrow : Sprite {
     }
 
     public override void _ExitTree() {
-        EventController.CommandEvent += HandleCommand;
+        EventController.CommandEvent -= HandleCommand;
     }
 
     public override void _Ready() {

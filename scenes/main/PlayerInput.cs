@@ -20,7 +20,7 @@ public class PlayerInput : RichTextLabel {
     }
 
     public override void _ExitTree() {
-        EventController.CommandEvent += HandleCommand;
+        EventController.CommandEvent -= HandleCommand;
         EventController.ValidInputEvent -= HandleValidInputs;
     }
 

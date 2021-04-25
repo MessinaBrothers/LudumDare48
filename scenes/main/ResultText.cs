@@ -14,7 +14,7 @@ public class ResultText : RichTextLabel {
     }
 
     public override void _ExitTree() {
-        EventController.CommandEvent += HandleCommand;
+        EventController.CommandEvent -= HandleCommand;
     }
 
     public override void _Process(float delta) {

@@ -8,7 +8,7 @@ public class ColorUpdater : Node {
     }
 
     public override void _ExitTree() {
-        EventController.CommandEvent += HandleCommand;
+        EventController.CommandEvent -= HandleCommand;
     }
 
     private void HandleCommand(object[] args) {
