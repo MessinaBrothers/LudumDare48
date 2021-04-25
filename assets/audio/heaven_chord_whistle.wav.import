@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/heaven_chord_whistle.wav-076178d1539a6be72d09250b904b449d.sample"
+
+[deps]
+
+source_file="res://assets/audio/heaven_chord_whistle.wav"
+dest_files=[ "res://.import/heaven_chord_whistle.wav-076178d1539a6be72d09250b904b449d.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

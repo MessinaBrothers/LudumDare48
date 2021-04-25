@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/heaven_chord.wav-613787aa98eff51df98c2f1070cc4682.sample"
+
+[deps]
+
+source_file="res://assets/audio/heaven_chord.wav"
+dest_files=[ "res://.import/heaven_chord.wav-613787aa98eff51df98c2f1070cc4682.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=true
+compress/mode=0

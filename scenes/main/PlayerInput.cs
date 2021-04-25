@@ -60,7 +60,7 @@ public class PlayerInput : RichTextLabel {
     private void HandleValidInputs(List<string> validInputs) {
         _validAnswers = validInputs;
 
-        FormatInput("");
+        //FormatInput("");
     }
 
     private void FormatInput(string input) {

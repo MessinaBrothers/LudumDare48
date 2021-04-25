@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://scenes/main/Main.cs" type="Script" id=1]
 [ext_resource path="res://assets/fonts/gothic_pixel.ttf" type="DynamicFontData" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://assets/textures/border_bottom.png" type="Texture" id=4]
 [ext_resource path="res://assets/textures/icons/armageddon.png" type="Texture" id=5]
 [ext_resource path="res://scenes/color_updater/ColorUpdater.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/audio/heaven_chord_whistle_two.wav" type="AudioStream" id=7]
 [ext_resource path="res://scenes/main/PlayerInput.cs" type="Script" id=8]
 [ext_resource path="res://scenes/main/BottomText.cs" type="Script" id=9]
 [ext_resource path="res://assets/textures/arrow.png" type="Texture" id=10]
@@ -355,7 +356,7 @@ glow_blend_mode = 1
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 1 )
-PrimaryColor = Color( 0.65098, 0.639216, 0.470588, 1 )
+PrimaryColor = Color( 0.678431, 0.662745, 0.482353, 1 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
@@ -582,3 +583,6 @@ anims/WriteReply = SubResource( 4 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 18 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
