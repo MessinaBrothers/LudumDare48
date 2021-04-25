@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=2]
+[gd_scene load_steps=60 format=2]
 
 [ext_resource path="res://scenes/main/Main.cs" type="Script" id=1]
 [ext_resource path="res://assets/fonts/gothic_pixel.ttf" type="DynamicFontData" id=2]
@@ -9,8 +9,7 @@
 [ext_resource path="res://assets/audio/music_end_chorus.wav" type="AudioStream" id=7]
 [ext_resource path="res://scenes/main/PlayerInput.cs" type="Script" id=8]
 [ext_resource path="res://scenes/main/BottomText.cs" type="Script" id=9]
-[ext_resource path="res://assets/textures/arrow.png" type="Texture" id=10]
-[ext_resource path="res://scenes/main/Arrow.cs" type="Script" id=11]
+[ext_resource path="res://scenes/arrow/Arrow.tscn" type="PackedScene" id=10]
 [ext_resource path="res://assets/fonts/poh_pixels.ttf" type="DynamicFontData" id=12]
 [ext_resource path="res://scenes/main/ResultText.cs" type="Script" id=13]
 [ext_resource path="res://scenes/main/ScoreText.cs" type="Script" id=14]
@@ -427,7 +426,7 @@ glow_blend_mode = 1
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 1 )
-PrimaryColor = Color( 0.678431, 0.662745, 0.482353, 1 )
+PrimaryColor = Color( 0.701961, 0.690196, 0.509804, 1 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
@@ -667,19 +666,14 @@ PrintCharTime = 0.01
 [node name="ColorUpdater" parent="BottomText" instance=ExtResource( 6 )]
 
 [node name="Border" type="Sprite" parent="."]
+self_modulate = Color( 0.701961, 0.690196, 0.509804, 1 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 3 )
 centered = false
 
 [node name="ColorUpdater" parent="Border" instance=ExtResource( 6 )]
 
-[node name="Arrow" type="Sprite" parent="."]
-position = Vector2( 308, 168 )
-texture = ExtResource( 10 )
-script = ExtResource( 11 )
-Time = 0.5
-
-[node name="ColorUpdater" parent="Arrow" instance=ExtResource( 6 )]
+[node name="Arrow" parent="." instance=ExtResource( 10 )]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
