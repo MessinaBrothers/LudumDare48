@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=59 format=2]
 
 [ext_resource path="res://scenes/main/Main.cs" type="Script" id=1]
 [ext_resource path="res://assets/fonts/gothic_pixel.ttf" type="DynamicFontData" id=2]
@@ -23,6 +23,26 @@
 [ext_resource path="res://assets/audio/heaven_chord_midi_strings_harp_b.ogg" type="AudioStream" id=21]
 [ext_resource path="res://assets/audio/heaven_chord_midi_strings_harp_g.ogg" type="AudioStream" id=22]
 [ext_resource path="res://scenes/main/EndText.cs" type="Script" id=23]
+[ext_resource path="res://assets/audio/heaven_chord_midi_pipe_whistle_g.ogg" type="AudioStream" id=24]
+[ext_resource path="res://assets/audio/heaven_chord_midi_pipe_whistle_e.ogg" type="AudioStream" id=25]
+[ext_resource path="res://assets/audio/midi_brass_trumpet_6c.wav" type="AudioStream" id=26]
+[ext_resource path="res://assets/audio/world_sitar_1_5e.wav" type="AudioStream" id=27]
+[ext_resource path="res://assets/audio/wind_eflute_5e.wav" type="AudioStream" id=28]
+[ext_resource path="res://assets/audio/wind_eflute_6b.wav" type="AudioStream" id=29]
+[ext_resource path="res://assets/audio/wind_eflute_6c.wav" type="AudioStream" id=30]
+[ext_resource path="res://assets/audio/wind_eflute_6d.wav" type="AudioStream" id=31]
+[ext_resource path="res://assets/audio/wind_eflute_6g.wav" type="AudioStream" id=32]
+[ext_resource path="res://assets/audio/midi_brass_trumpet_5e.wav" type="AudioStream" id=33]
+[ext_resource path="res://assets/audio/midi_brass_trumpet_6b.wav" type="AudioStream" id=34]
+[ext_resource path="res://assets/audio/midi_brass_trumpet_6d.wav" type="AudioStream" id=35]
+[ext_resource path="res://assets/audio/midi_brass_trumpet_6g.wav" type="AudioStream" id=36]
+[ext_resource path="res://assets/audio/world_sitar_1_6b.wav" type="AudioStream" id=37]
+[ext_resource path="res://assets/audio/world_sitar_1_6g.wav" type="AudioStream" id=38]
+[ext_resource path="res://assets/audio/world_sitar_1_6d.wav" type="AudioStream" id=39]
+[ext_resource path="res://assets/audio/heaven_chord_midi_pipe_whistle_c.ogg" type="AudioStream" id=40]
+[ext_resource path="res://assets/audio/heaven_chord_midi_pipe_whistle_b.ogg" type="AudioStream" id=41]
+[ext_resource path="res://assets/audio/heaven_chord_midi_pipe_whistle_d.ogg" type="AudioStream" id=42]
+[ext_resource path="res://assets/audio/world_sitar_1_6c.wav" type="AudioStream" id=43]
 
 [sub_resource type="DynamicFont" id=1]
 extra_spacing_char = -1
@@ -665,3 +685,7 @@ stream = ExtResource( 7 )
 stream = ExtResource( 17 )
 script = ExtResource( 16 )
 PlayerClips = [ ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 22 ), ExtResource( 21 ) ]
+AngelClips = [ ExtResource( 28 ), ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ) ]
+SonClips = [ ExtResource( 33 ), ExtResource( 34 ), ExtResource( 26 ), ExtResource( 35 ), ExtResource( 36 ) ]
+ChosenClips = [ ExtResource( 27 ), ExtResource( 37 ), ExtResource( 43 ), ExtResource( 39 ), ExtResource( 38 ) ]
+FollowerClips = [ ExtResource( 41 ), ExtResource( 40 ), ExtResource( 42 ), ExtResource( 25 ), ExtResource( 24 ) ]

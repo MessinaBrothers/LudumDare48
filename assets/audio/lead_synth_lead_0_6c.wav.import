@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/lead_synth_lead_0_6c.wav-8d7633d2f61d67d1e502586e07fb3b94.sample"
+
+[deps]
+
+source_file="res://assets/audio/lead_synth_lead_0_6c.wav"
+dest_files=[ "res://.import/lead_synth_lead_0_6c.wav-8d7633d2f61d67d1e502586e07fb3b94.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

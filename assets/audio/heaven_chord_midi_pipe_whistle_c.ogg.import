@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/heaven_chord_midi_pipe_whistle_c.ogg-ab351379af0e18df445407884c93caf1.oggstr"
+
+[deps]
+
+source_file="res://assets/audio/heaven_chord_midi_pipe_whistle_c.ogg"
+dest_files=[ "res://.import/heaven_chord_midi_pipe_whistle_c.ogg-ab351379af0e18df445407884c93caf1.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

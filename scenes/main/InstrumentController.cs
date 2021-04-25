@@ -7,14 +7,14 @@ public class InstrumentController : AudioStreamPlayer {
     public float Time = 0.125f;
 
     [Export]
-    public AudioStream[] PlayerClips;
+    public AudioStream[] PlayerClips, AngelClips, SonClips, ChosenClips, FollowerClips;
 
     public enum INSTRUMENT {
-        PLAYER, FOLLOWER, ANGEL, SON
+        PLAYER, FOLLOWER, ANGEL, SON, CHOSEN
     }
-    private INSTRUMENT _instrument;
 
     private Random _rng = new Random();
+    private AudioStream[] _currentClips;
 
     private int[] _indexOrder = new int[] { 0, 1, 2, 3, 4 };
     private float _timer = 0f;
@@ -30,7 +30,7 @@ public class InstrumentController : AudioStreamPlayer {
 
     public override void _Ready() {
         Utility.Shuffle(_indexOrder, _rng);
-        _instrument = INSTRUMENT.PLAYER;
+        _currentClips = PlayerClips;
     }
 
     public override void _Process(float delta) {
@@ -46,8 +46,8 @@ public class InstrumentController : AudioStreamPlayer {
         if (args.Length == 0) return;
 
         if ("play_instrument".Equals(args[0])) {
-            if (_timer <= 0 || true) {
-                Stream = PlayerClips[_indexOrder[_index++]];
+            if (_timer <= 0) { // || true) {
+                Stream = _currentClips[_indexOrder[_index++]];
                 Play(0f);
                 _timer += Time;
 
@@ -59,7 +59,23 @@ public class InstrumentController : AudioStreamPlayer {
         } else if ("set_instrument".Equals(args[0])) {
             if (args.Length == 1) return;
             if (args[1] is INSTRUMENT instrument) {
-
+                switch (instrument) {
+                    case INSTRUMENT.ANGEL:
+                        _currentClips = AngelClips;
+                        break;
+                    case INSTRUMENT.CHOSEN:
+                        _currentClips = ChosenClips;
+                        break;
+                    case INSTRUMENT.FOLLOWER:
+                        _currentClips = FollowerClips;
+                        break;
+                    case INSTRUMENT.PLAYER:
+                        _currentClips = PlayerClips;
+                        break;
+                    case INSTRUMENT.SON:
+                        _currentClips = SonClips;
+                        break;
+                }
             }
         }
     }

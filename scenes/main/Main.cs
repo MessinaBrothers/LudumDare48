@@ -23,8 +23,8 @@ public class Main : Node2D {
         { MOL_PROMPT, new Answer("", "", "") },
     };
     private static Dictionary<string, Answer> _prayAnswers = new Dictionary<string, Answer>() {
-        { "Damn", new Answer("You damn them to hell. \"NNNNOOOOOooooooo\"", "Your other followers are frightened, and more eager to please you.", "0x3") },
-        { "Deny", new Answer("You deny their request. \"Well, thanks anyway!\"", "They seem unperturbed.", "2x3") },
+        { "Damn", new Answer("\"Noooooooooooooooooo\"", "You damn them to HECK.\nYour other followers work even harder to please you.", "0x3") },
+        { "Deny", new Answer("\"Understood! It's all part of your plan.\"", "They seem undeterred.", "2x3") },
         { "Grant", new Answer("You grant their request. \"Praise be God!\"", "They run to spread your Word.", "4x3") },
         { "Ignite", new Answer("They spontaneously combust. \"Aaaarrrrgggghhhhhh\"", "Passersby witness this, and convert immediately.", "0x3") },
         { "Ignore", new Answer("You ignore them. \"Hello? Are you there?\"", "Your followers are dismayed, and convert to a religion with a more responsive deity.", "6x3") },
@@ -143,6 +143,7 @@ public class Main : Node2D {
 
     private Dictionary<string, Answer> _validAnswers;
     private Dictionary<Dictionary<string, Answer>, List<string>> _correctAnswers;
+    private Dictionary<Dictionary<string, Answer>, InstrumentController.INSTRUMENT> _instruments;
     private List<string> _validKeys;
     private AnimationPlayer _animPlayer;
     private Random _rng = new Random();
@@ -185,6 +186,11 @@ public class Main : Node2D {
             { _angelAnswers, new List<string>() { "Hell", "Cast" } },
             { _sonAnswers, new List<string>() { "Sacrifice", } },
         };
+        _instruments = new Dictionary<Dictionary<string, Answer>, InstrumentController.INSTRUMENT>() {
+            { _prayAnswers, InstrumentController.INSTRUMENT.FOLLOWER },
+            { _angelAnswers, InstrumentController.INSTRUMENT.ANGEL },
+            { _sonAnswers, InstrumentController.INSTRUMENT.SON },
+        };
 
         EventController.Send("update_color", PrimaryColor);
         EventController.Send("toggle_intro_text", false);
@@ -193,8 +199,10 @@ public class Main : Node2D {
 
         EventController.Send("update_result_text", "");
         EventController.Send("update_player_input", "");
+        EventController.Send("set_instrument", InstrumentController.INSTRUMENT.PLAYER);
 
         _state = State.WRITE_MOL;
+
     }
 
     public override void _Process(float delta) {
@@ -223,6 +231,7 @@ public class Main : Node2D {
                 case State.DISTRACTION_PROMPT:
                     ResetInput();
                     _animPlayer.Play("WriteReply");
+                    EventController.Send("set_instrument", InstrumentController.INSTRUMENT.PLAYER);
                     EventController.Send("update_player_input", "");
                     EventController.Send("update_glow", 0f);
                     _state = State.WRITE_REPLY;
@@ -232,6 +241,7 @@ public class Main : Node2D {
                     Answer answer = _validAnswers[_input];
                     if (_validAnswers.ContainsKey(answer.response)) answer = _validAnswers[answer.response];
                     string result = answer.result;
+                    EventController.Send("set_instrument", InstrumentController.INSTRUMENT.PLAYER);
                     EventController.Send("update_result_text", result);
                     EventController.Send("start_result_text");
                     EventController.Send("show_arrow", false);
@@ -333,6 +343,7 @@ public class Main : Node2D {
                         UpdateAnswers(_sonAnswers);
                         EventController.UpdateIcon(iconX * 2, 2);
                     }
+                    EventController.Send("set_instrument", _instruments[_validAnswers]);
                     EventController.Send("update_icon");
                     // get random prompt
                     if (_promptsIndex == _answerPrompts[_validAnswers].Count) {
@@ -352,6 +363,7 @@ public class Main : Node2D {
                     Answer answer = _validAnswers[_input];
                     if (_validAnswers.ContainsKey(answer.response)) answer = _validAnswers[answer.response];
                     EventController.Send("update_bottom_text", answer.response);
+                    EventController.Send("set_instrument", _instruments[_validAnswers]);
                     string[] split = answer.texture.Split('x');
                     EventController.UpdateIcon(int.Parse(split[0]), int.Parse(split[1]));
                     _animPlayer.Play("Response");

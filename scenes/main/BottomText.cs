@@ -29,6 +29,7 @@ public class BottomText : RichTextLabel {
             _timer -= PrintCharTime;
 
             VisibleCharacters += 1;
+            EventController.Send("play_instrument");
 
             if (VisibleCharacters >= BbcodeText.Length) {
                 _isOn = false;

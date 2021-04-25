@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/midi_brass_trumpet_6b.wav-bdf9b654f0ea58da50be2e4e2d06a519.sample"
+
+[deps]
+
+source_file="res://assets/audio/midi_brass_trumpet_6b.wav"
+dest_files=[ "res://.import/midi_brass_trumpet_6b.wav-bdf9b654f0ea58da50be2e4e2d06a519.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

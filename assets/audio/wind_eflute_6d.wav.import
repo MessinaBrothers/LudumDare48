@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/wind_eflute_6d.wav-08804228dd0d09ae6bc57c2ac71194cb.sample"
+
+[deps]
+
+source_file="res://assets/audio/wind_eflute_6d.wav"
+dest_files=[ "res://.import/wind_eflute_6d.wav-08804228dd0d09ae6bc57c2ac71194cb.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
