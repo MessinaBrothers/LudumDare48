@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=2]
+[gd_scene load_steps=61 format=2]
 
 [ext_resource path="res://scenes/main/Main.cs" type="Script" id=1]
 [ext_resource path="res://assets/fonts/gothic_pixel.ttf" type="DynamicFontData" id=2]
@@ -43,11 +43,16 @@
 [ext_resource path="res://assets/audio/heaven_chord_midi_pipe_whistle_b.ogg" type="AudioStream" id=41]
 [ext_resource path="res://assets/audio/heaven_chord_midi_pipe_whistle_d.ogg" type="AudioStream" id=42]
 [ext_resource path="res://assets/audio/world_sitar_1_6c.wav" type="AudioStream" id=43]
+[ext_resource path="res://scenes/main/BlinkingCursor.cs" type="Script" id=44]
 
 [sub_resource type="DynamicFont" id=1]
 extra_spacing_char = -1
 extra_spacing_space = 1
 font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=16]
+size = 32
+font_data = ExtResource( 12 )
 
 [sub_resource type="DynamicFont" id=2]
 extra_spacing_char = -1
@@ -443,6 +448,22 @@ margin_bottom = 136.0
 custom_fonts/font = SubResource( 1 )
 text = "The Meaning of Life is"
 autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BlinkingCursor" type="Label" parent="."]
+margin_left = -1.0
+margin_top = 4.0
+margin_right = 17.0
+margin_bottom = 26.0
+rect_scale = Vector2( 1.4, 1 )
+custom_fonts/font = SubResource( 16 )
+custom_colors/font_color = Color( 0.882353, 0.882353, 0.882353, 1 )
+text = "_"
+align = 1
+valign = 1
+script = ExtResource( 44 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -20,87 +20,138 @@ public class Main : Node2D {
         public string texture;
     }
 
+    private Dictionary<string, string> _allWordKeys = new Dictionary<string, string>() {
+        { "Agree", "YES" },
+        { "Ask", "SAY" },
+        { "Announce", "ANNOUNCE" },
+        { "Bolt", "LIGHTNING" },
+        { "Cast", "HECK" },
+        { "Crucify", "CRUCIFY" },
+        { "Damn", "HECK" },
+        { "Defend", "DEFEND" },
+        { "Deny", "NO" },
+        { "Descend", "DESCEND" },
+        { "Destroy", "DESTROY" },
+        { "Die", "KILL" },
+        { "Disagree", "NO" },
+        { "Dragon", "SLAY" },
+        { "Dream", "ANNOUNCE" },
+        { "Dust", "KILL" },
+        { "Electrocute", "LIGHTNING" },
+        { "Expel", "HECK" },
+        { "Exile", "HECK" },
+        { "Gaze", "LOOK" },
+        { "Grant", "YES" },
+        { "Go", "GO" },
+        { "Heal", "HEAL" },
+        { "Heck", "HECK" },
+        { "Herald", "ANNOUNCE" },
+        { "Ignite", "KILL" },
+        { "Ignore", "IGNORE" },
+        { "Impregnate", "LOVE" },
+        { "Kill", "KILL" },
+        { "Kiss", "LOVE" },
+        { "Leave", "IGNORE" },
+        { "Lightning", "LIGHTNING" },
+        { "Look", "LOOK" },
+        { "Love", "LOVE" },
+        { "Multiply", "LOVE" },
+        { "Never", "NO" },
+        { "No", "NO" },
+        { "Observe", "LOOK" },
+        { "Okay", "YES" },
+        { "Peer", "LOOK" },
+        { "Persuade", "YES" },
+        { "Reinforce", "YES" },
+        { "Sacrifice", "CRUCIFY" },
+        { "Safeguard", "DEFEND" },
+        { "Save", "SAVE" },
+        { "Say", "SAY" },
+        { "Scale", "SCALE" },
+        { "See", "LOOK" },
+        { "Slay", "SLAY" },
+        { "Smite", "KILL" },
+        { "Soothe", "YES" },
+        { "Speak", "SAY" },
+        { "Spy", "LOOK" },
+        { "Sure", "YES" },
+        { "Talk", "SAY" },
+        { "Tell", "SAY" },
+        { "Use", "USE" },
+        { "View", "LOOK" },
+        { "Wander", "WANDER" },
+        { "Watch", "LOOK" },
+        { "Weigh", "SCALE" },
+        { "Witness", "LOOK" },
+        { "Yeah", "YES" },
+        { "Yes", "YES" },
+        { "Yup", "YES" },
+    };
     private static Dictionary<string, Answer> _meaningOfLifeAnswer = new Dictionary<string, Answer>() {
         { MOL_PROMPT, new Answer("", "", "") },
     };
     private static Dictionary<string, Answer> _prayAnswers = new Dictionary<string, Answer>() {
-        { "Damn", new Answer("\"Noooooooooooooooooo\", they scream, as you damn them to HECK.", "Your other followers work even harder to please you.", "0x3") },
-        { "Deny", new Answer("\"Understood! It's all part of your plan.\"", "They seem undeterred.", "2x3") },
-        { "Grant", new Answer("\"Praise be to YOU!\"", "They are pleased, and spend the rest of their life spreading your Word.", "4x3") },
-        { "Ignite", new Answer("\"Aaaarrrrrrrgggghhhhhh\", they scream, as they spontaneously combust.", "Passersby witness this miracle, and immediately convert.", "0x3") },
-        { "Ignore", new Answer("\"Hello?                   \nAre you there?\"", "Your followers become dismayed, and convert to a religion with a more responsive deity!", "6x3") },
-        { "Lightning", new Answer("\"Aaaaaaahhhhhhh\", they scream, as your lightning bolt hits them right in the face.", "Passersby witness this, and immediately convert.", "0x4") },
-        { "Never", new Answer("Deny", "", "") },
-        { "No", new Answer("Deny", "", "") },
-        { "Okay", new Answer("Grant", "", "") },
-        { "Smite", new Answer("Ignite", "", "") },
-        { "Destroy", new Answer("Ignite", "", "") },
-        { "Sure", new Answer("Grant", "", "") },
-        { "Yeah", new Answer("Grant", "", "") },
-        { "Yes", new Answer("Grant", "", "") },
-        { "Yup", new Answer("Grant", "", "") },
+        { "UNKNOWN", new Answer("\"An answer from on High! But what does it mean?\"", "Your follower writes down everything you said, and devotes their life to understanding it.", "0x5") },
+        { "IGNORE", new Answer("\"Hello?                   \nAre you there?\"", "Your followers become dismayed, and convert to a religion with a more responsive deity!", "6x3") },
+        { "YES", new Answer("\"Praise be to YOU!\"", "They are pleased, and spend the rest of their life spreading your Word.", "4x3") },
+        { "NO", new Answer("\"Understood! It's all part of your plan.\"", "They seem undeterred.", "2x3") },
+        { "HECK", new Answer("\"Noooooooooooooooooo\", they scream, as you damn them to HECK.", "Your other followers work even harder to please you.", "0x3") },
+        { "KILL", new Answer("\"Aaaarrrrrrrgggghhhhhh\", they scream, as they spontaneously combust.", "Passersby witness this miracle, and immediately convert.", "0x3") },
+        { "LIGHTNING", new Answer("\"Aaaaaaahhhhhhh\", they scream, as your lightning bolt hits them right in the face.", "Word spreads, and you convert the fearful.", "0x4") },
+        { "SAY", new Answer("\"An answer! From the Lord! I have been chosen!\"", "You created another prophet that will spread your word to millions.\nGreat.", "2x5") },
+        { "WANDER", new Answer("\"To get my answer, I need to wander in the desert for 40 years? Okay...\"", "Their sacrifice becomes an inspiration to many.", "4x5") },
     };
     private static Dictionary<string, Answer> _angelAnswers = new Dictionary<string, Answer>() {
-        { "Cast", new Answer("Hell", "", "") },
-        { "Defend", new Answer("Defend the chosen ones in their hour of conflict. \"On it, my Lord!\"", "That should keep her busy.", "2x4") },
-        { "Descend", new Answer("Descend at the hour of death. \"Yes, my Lord!\"", "That should keep her busy.", "4x4") },
-        { "Dream", new Answer("Appear in a dream. \"Yes, my Lord!\"", "That should keep her busy.", "6x4") },
-        { "Dragon", new Answer("Slay", "", "") },
-        { "Dust", new Answer("Turn a city into dust. \"Yes, my Lord!\"", "That should keep her busy.", "4x4") },
-        { "Expel", new Answer("Hell", "", "") },
-        { "Heal", new Answer("There is a plague. Go cure the people. \"Yes, my Lord!\"", "That should keep her busy.", "2x4") },
-        { "Hell", new Answer("You cast your archangel into Hell. \"Oof!\"", "That should shut her up!", "0x3") },
-        { "Herald", new Answer("Go and herald your replacement. \"Yes, my Lord!\"", "Your archangel retires, but another soon replaces her. Damn it.", "4x4") },
-        { "Ignore", new Answer("\"I shall await for further instructions, my Lord!\"", "She floats there,\nsilently watching.", "6x3") },
-        { "Safeguard", new Answer("Safeguard against the wickedness. \"Yes, my Lord!\"", "Whatever that means.", "2x4") },
-        { "Scale", new Answer("Weigh a soul on that perfect scale of yours. \"Yes, my Lord!\"", "Where did he get that thing, anyway?", "2x4") },
-        { "Slay", new Answer("Go slay a dragon. \"Yes, my Lord!\"", "Later, you remember that dragons do not exist.", "4x4") },
-        { "Smite", new Answer("Go and smite someone. \"Yes, my Lord!\"", "The smitten deserved it. Probably.", "4x4") },
-        { "Wander", new Answer("Wander through the world for the ruin of souls. \"Yes, my Lord!\"", "So many ruins of souls in the world.", "4x4") },
-        { "Weigh", new Answer("Scale", "", "") },
+        { "UNKNOWN", new Answer("\"I am unsure of what you ask, my Lord! Please don't exile me!\"", "Angels can be so dumb at times.", "0x5") },
+        { "HECK", new Answer("\"You can't exile me! I quit!\"", "Your archangel rebels against you! You cast her to HECK and vow never again to have an archangel!", "0x3") },
+        { "DEFEND", new Answer("\"I shall defend the chosen ones in their hour of conflict!", "That should keep her busy.", "2x4") },
+        { "DESCEND", new Answer("\"I shall descend at the hour of death.\"", "That should keep her busy.", "4x4") },
+        { "Dust", new Answer("\"I shall turn an entire city to dust!\"", "That is not what you meant, but that should keep her busy.", "4x4") },
+        { "HEAL", new Answer("\"A plague? Sick people! I shall go at once!\"", "That should keep her busy.", "2x4") },
+        { "ANNOUNCE", new Answer("\"I shall go at once and announce...something!\"", "You are sure the announcement will be great.\nWhatever it is.", "4x4") },
+        { "IGNORE", new Answer("\"I shall await for further instructions, my Lord!\"", "She floats there,\nsilently watching.\nAngels have no hobbies.", "6x3") },
+        { "LIGHTNING", new Answer("\"Careful, my Lord! You almost hit me with that lightning bolt.\"", "Missed.\nDamn.", "0x4") },
+        { "SCALE", new Answer("\nI shall weigh a soul on my perfect scale!\"", "Where did she get that thing, anyway?", "2x4") },
+        { "SLAY", new Answer("\"I shall slay a dragon in your name, my Lord!\"", "She leaves.\nLater, you remember that dragons do not exist.", "4x4") },
+        { "KILL", new Answer("\"I shall go and smite the wicked!\"", "The smitten deserve it.\nProbably.", "4x4") },
+        { "WANDER", new Answer("\"I shall wander through the world for the ruin of souls.\"", "What the HECK is a ruin of souls?", "4x5") },
     };
     private static Dictionary<string, Answer> _sonAnswers = new Dictionary<string, Answer>() {
-        { "Agree", new Answer("You idly agree, which seems to please him. Idiot.", "He seems content. For now.", "0x0") },
-        { "Crucify", new Answer("Sacrifice", "", "0x0") },
-        { "Die", new Answer("Kill", "", "0x0") },
-        { "Disagree", new Answer("You disagree with him, but he does not seem to listen.", "He seems content. For now.", "0x0") },
-        { "Ignore", new Answer("You ignore him.", "He huffs and puffs and leaves, eventually. He will be back.", "0x0") },
-        { "Kill", new Answer("You cast a lightning bolt to his face. \"Arrrgggghhh\"", "Once the smoke clears, you are dismayed to see him still standing, more annoyed than ever. Stupid immortality.", "0x0") },
-        { "Lightning", new Answer("Kill", "", "0x0") },
-        { "Persuade", new Answer("You try to convince him otherwise, but he does not seem to listen.", "He seems content. For now.", "0x0") },
-        { "Reinforce", new Answer("You put on your dad hat and reinforce his beliefs.", "He seems content. For now.", "0x0") },
-        { "Sacrifice", new Answer("Go to Earth, my son, and sacrifice yourself to save humanity.", "He seems keen to the idea. You never hear from him again.", "0x0") },
-        { "Save", new Answer("Sacrifice", "", "0x0") },
-        { "Soothe", new Answer("You soothe his fragile ego.", "He seems content. For now.", "0x0") },
-        { "Smite", new Answer("Kill", "", "0x0") },
+        { "UNKNOWN", new Answer("", "", "0x5") },
+        { "CRUCIFY", new Answer("\"Go to the chosen people and sacrifice myself to save them? Yippee!\"", "He seems to love the idea.\nYou never hear from him again!", "0x0") },
+        { "YES", new Answer("\"I knew you'd understand! Thanks, Dad!\"", "You are not sure if he even heard you, but he seems content. For now.", "0x0") },
+        { "NO", new Answer("\"But Daaaaaaaaaaaaaaad! It just isn't fair!\"", "He storms off in a huff.", "0x0") },
+        { "IGNORE", new Answer("\"Dad? Dad? Dad? Dad? Daaaaaaaaaaaaaaaaaaad!\"", "He storms off in a huff.", "0x0") },
+        { "KILL", new Answer("\"Haha, pretty funny, Dad!\"", "You cast a lightning bolt to his face, but nothing happens. Stupid immortality.", "0x0") },
+        { "LIGHTNING", new Answer("\"Haha, pretty funny, Dad!\"", "You cast a lightning bolt to his face, but nothing happens. Stupid immortality.", "0x0") },
+        { "WANDER", new Answer("\"The devil can't tempt me! I'll wander the desert and show everyone!\"", "He sure seems to like being tempted.\nWeirdo.", "4x5") },
     };
     private Dictionary<Dictionary<string, Answer>, List<string>> _answerPrompts = new Dictionary<Dictionary<string, Answer>, List<string>>() {
         { _meaningOfLifeAnswer, new List<string>() {
             "This should never be seen!",
         } },
         { _prayAnswers, new List<string>() {
-            "A follower says \"I pledge allegience, to the flag, of the United States of America. Amen!\" She seems confused.",
-            "A follower asks \"Look after us on this holiday season.\"",
-            "A follower requests \"Please Lord, I just want to see my daughters again.\"",
-            "A follower says \"Help him, Dear Father.\" Who is him?",
-            "A follower says \"Help my friend Mr. Bailey.\"",
-            "A follower says \"Please help my son George tonight.\"",
-            "A follower says \"Give him a break, God.\" Give who a break?",
-            "A follower says \"Watch over him tonight.\" They should be more specific.",
-            "A young follower says \"Please bring Daddy back.\"",
-            "A distraught follower says \"Show me the way.\"",
-            "A drunk follower says \"May our feet by swift.\"",
-            "A boozy follower says \"May our bats be mighty.\"",
-            "A handsome follower says \"May our balls be plentiful.\"",
-            "A follower asks \"Please forgive me for not praying before I had a bite of my bagel.\"",
-            "A follower thinks \"Send us the cure. We got the sickness already.\"",
-            "A follower daydreams \"Would it be so terrible if I had a small fortune?\"",
+            "\"I pledge allegience, to the flag, of the United States of America. Amen!\"",
+            "\"Please Lord, I just want to see my daughters again.\"",
+            "\"Help him, Dear Father.\" You wish they would be more specific.",
+            "\"Help my friend Mr. Bailey.\"",
+            "\"Please help my son George tonight.\"",
+            "\"Give him a break, God.\" You wish they would be more specific.",
+            "\"Watch over him tonight.\" You wish they would be more specific.",
+            "\"Please bring Daddy back.\"",
+            "\"Show me the way.\" Classic.",
+            "\"May our feet by swift.\"",
+            "\"May our bats be mighty.\"",
+            "\"May our balls be plentiful.\"",
+            "\"Please forgive me for not praying before I had a bite of my bagel.\"",
+            "\"Send us the cure. We got the sickness already.\"",
+            "\"Would it be so terrible if I had a small fortune?\"",
         } },
         { _angelAnswers, new List<string>() {
-            "Your archangel is back from Earth. \"What next, my Lord?\"",
-            "Your archangel is back from Earth. What took her so long? \"What next, my Lord?\"",
-            "Your archangel is back from Earth. Again. \"What next, my Lord?\"",
-            "Your archangel is back from your latest distraction. \"What next, my Lord?\"",
+            "\"I am back from Earth! What next, my Lord?\"",
+            "\"I am finally back! What next, my Lord?\" What took her so long?",
+            "\"Hark! I am back from Earth! What next, my Lord?\"",
+            "\"Dragons?! Where?! I please to serve, my Lord?\" Who said anything about dragons?",
             "\"Hark! It is I, your favorite archangel! How may I serve thee?\"",
         } },
         { _sonAnswers, new List<string>() {
@@ -184,20 +235,29 @@ public class Main : Node2D {
         _animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 
         _correctAnswers = new Dictionary<Dictionary<string, Answer>, List<string>>() {
-            { _prayAnswers, new List<string>() { "Ignore" } },
-            { _angelAnswers, new List<string>() { "Hell", "Cast" } },
-            { _sonAnswers, new List<string>() { "Sacrifice", } },
+            { _prayAnswers, new List<string>() { "IGNORE" } },
+            { _angelAnswers, new List<string>() { "HECK", } },
+            { _sonAnswers, new List<string>() { "CRUCIFY", } },
         };
         _instruments = new Dictionary<Dictionary<string, Answer>, InstrumentController.INSTRUMENT>() {
             { _prayAnswers, InstrumentController.INSTRUMENT.FOLLOWER },
             { _angelAnswers, InstrumentController.INSTRUMENT.ANGEL },
             { _sonAnswers, InstrumentController.INSTRUMENT.SON },
         };
+        
+        void AppendSpeaker(string speaker, Dictionary<string, Answer> answers) {
+            for (int i = 0; i < _answerPrompts[answers].Count; i++) {
+                _answerPrompts[answers][i] = speaker + _answerPrompts[answers][i];
+            };
+        }
+        AppendSpeaker("FOLLOWER: ", _prayAnswers);
+        AppendSpeaker("ANGEL: ", _angelAnswers);
+        AppendSpeaker("SON: ", _sonAnswers);
 
         EventController.Send("update_color", PrimaryColor);
         EventController.Send("toggle_intro_text", false);
 
-        UpdateAnswers(_meaningOfLifeAnswer);
+        UpdateAnswers(_meaningOfLifeAnswer, false);
 
         EventController.Send("update_result_text", "");
         EventController.Send("update_player_input", "");
@@ -240,25 +300,22 @@ public class Main : Node2D {
                     EventController.Send("show_arrow", false);
                     break;
                 case State.RESPONSE_PROMPT:
-                    Answer answer = _validAnswers[_input];
-                    if (_validAnswers.ContainsKey(answer.response)) answer = _validAnswers[answer.response];
-                    string result = answer.result;
                     EventController.Send("set_instrument", InstrumentController.INSTRUMENT.PLAYER);
-                    EventController.Send("update_result_text", result);
+                    EventController.Send("update_result_text", GetAnswer().result);
                     EventController.Send("start_result_text");
                     EventController.Send("show_arrow", false);
                     _state = State.RESULT_WAIT;
                     break;
                 case State.RESULT_PROMPT:
                     // score for correctness
-                    if (_correctAnswers[_validAnswers].Contains(_input) || _correctAnswers[_validAnswers].Contains(_validAnswers[_input].response)) {
+                    if (_correctAnswers[_validAnswers].Contains(_allWordKeys[_input])) {
                         _score += 1;
                         EventController.Send("update_score", _score, SCORE_MAX);
 
                     }
                     ResetInput();
                     _animPlayer.Play("DistractionDisappear");
-                    UpdateAnswers(_meaningOfLifeAnswer);
+                    UpdateAnswers(_meaningOfLifeAnswer, false);
                     EventController.Send("update_player_input", "");
                     EventController.Send("show_arrow", false);
                     if (_score == SCORE_MAX) {
@@ -280,7 +337,7 @@ public class Main : Node2D {
     }
 
     public override void _UnhandledKeyInput(InputEventKey key) {
-        bool HandleInput(bool isMatch) {
+        bool HandleInput(bool isMatch, List<string> validKeys) {
             if (key.Scancode == (uint)KeyList.Backspace && key.Pressed == true) {
                 _lastChar = key.Scancode;
                 if (_input.Length == 0) return false;
@@ -294,15 +351,15 @@ public class Main : Node2D {
                 _lastChar = 0;
             } else if (key.Pressed == true && key.Scancode != _lastChar) {
                 if (isMatch == true) {
-                    for (int i = 0; i < _validKeys.Count; i++) {
-                        if (_validKeys[i].StartsWith(_input) == false) continue;
-                        if (key.Scancode == Char.ToUpper(_validKeys[i][_index])) {
+                    for (int i = 0; i < validKeys.Count; i++) {
+                        if (validKeys[i].StartsWith(_input) == false) continue;
+                        if (key.Scancode == Char.ToUpper(validKeys[i][_index])) {
                             _lastChar = key.Scancode;
-                            _input += _validKeys[i][_index++];
+                            _input += validKeys[i][_index++];
                             EventController.Send("update_player_input", _input);
                             EventController.Send("play_instrument");
 
-                            if (_index >= _validKeys[i].Length) {
+                            if (_index >= validKeys[i].Length) {
                                 return true;
                             }
                         }
@@ -331,18 +388,18 @@ public class Main : Node2D {
 
         switch (_state) {
             case State.WRITE_MOL:
-                if (HandleInput(true) == true) {
+                if (HandleInput(true, new List<string>(_meaningOfLifeAnswer.Keys)) == true) {
                     EventController.Send("update_result_text", "");
                     int iconX = _rng.Next(PORTRAIT_MAX_INDEX);
                     // update valid answers
                     if (_score == 0) {
-                        UpdateAnswers(_prayAnswers);
+                        UpdateAnswers(_prayAnswers, true);
                         EventController.UpdateIcon(iconX * 2, 0);
                     } else if (_score == 1) {
-                        UpdateAnswers(_angelAnswers);
+                        UpdateAnswers(_angelAnswers, true);
                         EventController.UpdateIcon(iconX * 2, 1);
                     } else if (_score == 2) {
-                        UpdateAnswers(_sonAnswers);
+                        UpdateAnswers(_sonAnswers, true);
                         EventController.UpdateIcon(iconX * 2, 2);
                     }
                     EventController.Send("set_instrument", _instruments[_validAnswers]);
@@ -361,9 +418,8 @@ public class Main : Node2D {
                 EventController.Send("update_glow", 0.75f * _input.Length / MOL_PROMPT.Length);
                 break;
             case State.WRITE_REPLY:
-                if (HandleInput(true) == true) {
-                    Answer answer = _validAnswers[_input];
-                    if (_validAnswers.ContainsKey(answer.response)) answer = _validAnswers[answer.response];
+                if (HandleInput(true, new List<string>(_allWordKeys.Keys)) == true) {
+                    Answer answer = GetAnswer();
                     EventController.Send("update_bottom_text", answer.response);
                     EventController.Send("set_instrument", _instruments[_validAnswers]);
                     string[] split = answer.texture.Split('x');
@@ -373,13 +429,13 @@ public class Main : Node2D {
                 }
                 break;
             case State.WRITE_ENDING_MOL:
-                if (HandleInput(true) == true) {
+                if (HandleInput(true, new List<string>(_meaningOfLifeAnswer.Keys)) == true) {
                     _state = State.WRITE_ENDING_ANY;
                 }
                 EventController.Send("update_glow", 1f * _input.Length / MOL_PROMPT.Length);
                 break;
             case State.WRITE_ENDING_ANY:
-                HandleInput(false);
+                HandleInput(false, null);
 
                 if (_input.Contains(MOL_PROMPT) == false) {
                     _state = State.WRITE_ENDING_MOL;
@@ -411,15 +467,30 @@ public class Main : Node2D {
     //     return l;
     // }
 
+    private Answer GetAnswer() {
+        if (_validAnswers.ContainsKey(_input)) {
+            return _validAnswers[_input];
+        } else if (_validAnswers.ContainsKey(_allWordKeys[_input])) {
+            return _validAnswers[_allWordKeys[_input]];
+        }
+        //if (_validAnswers.ContainsKey(answer.response)) answer = _validAnswers[answer.response];
+
+        return _validAnswers["UNKNOWN"];
+    }
+
     private void ResetInput() {
         _input = "";
         _index = 0;
     }
 
-    private void UpdateAnswers(Dictionary<string, Answer> answers) {
+    private void UpdateAnswers(Dictionary<string, Answer> answers, bool useAllKeys) {
         _lastChar = 0;
         _validAnswers = answers;
-        _validKeys = new List<string>(answers.Keys);
+        if (useAllKeys == true) {
+            _validKeys = new List<string>(_allWordKeys.Keys);
+        } else {
+            _validKeys = new List<string>(answers.Keys);
+        }
         EventController.UpdateValidInputs(_validKeys);
 
         _promptsIndex = _answerPrompts[_validAnswers].Count;

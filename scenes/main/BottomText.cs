@@ -35,7 +35,7 @@ public class BottomText : RichTextLabel {
             EventController.Send("play_instrument");
             VisibleCharacters += 1;
             if (VisibleCharacters - _quotationMarkCount < _originalText.Length) {
-                GD.Print(_originalText[VisibleCharacters - _quotationMarkCount]);
+                //GD.Print(_originalText[VisibleCharacters - _quotationMarkCount]);
                 switch (_originalText[VisibleCharacters - _quotationMarkCount]) {
                     case '\"':
                         _quotationMarkCount += 1;
@@ -80,7 +80,7 @@ public class BottomText : RichTextLabel {
                 if (split.Length == 1) {
                     BbcodeText = s;
                 } else {
-                    BbcodeText = split[0] + "[i]\" " + split[1] + " \"[/i]" + split[2];
+                    BbcodeText = "[i]" + split[0] + "\"" + split[1] + " \"[/i]" + split[2];
                 }
                 _quotationMarkCount = 0;
                 VisibleCharacters = 0;
