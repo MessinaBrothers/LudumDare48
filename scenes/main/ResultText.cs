@@ -5,6 +5,10 @@ public class ResultText : RichTextLabel {
 
     [Export]
     public float PrintCharTime = 1.0f;
+    
+    private static readonly Color COLOR_DUMMY = new Color(0.31f, 0.32f, 0.33f);
+    private Color _colorOrig = COLOR_DUMMY;
+    private Color _colorGlow = new Color(1f, 1f, 1f);
 
     private bool _isOn = false;
     private float _timer = 0f;
@@ -62,6 +66,12 @@ public class ResultText : RichTextLabel {
         } else if ("start_result_text".Equals(args[0])) {
             _isOn = true;
             _timer = PrintCharTime;
+        } else if ("update_result_glow".Equals(args[0])) {
+            if (args.Length == 1) return;
+            if (args[1] is bool b) {
+                if (_colorOrig == COLOR_DUMMY) _colorOrig = SelfModulate;
+                SelfModulate = b ? _colorGlow : _colorOrig;
+            }
         }
     }
 

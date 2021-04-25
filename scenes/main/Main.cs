@@ -6,8 +6,8 @@ public class Main : Node2D {
 
     private static readonly uint SCORE_MAX = 3;
     private static readonly int PORTRAIT_MAX_INDEX = 3;
-    //private static readonly string MOL_PROMPT = "The Meaning of Life is";
-    private static readonly string MOL_PROMPT = "T";
+    private static readonly string MOL_PROMPT = "The Meaning of Life is";
+    //private static readonly string MOL_PROMPT = "T";
 
     struct Answer {
         public Answer(string response, string result, string texture) {
@@ -23,6 +23,7 @@ public class Main : Node2D {
     private Dictionary<string, string> _allWordKeys = new Dictionary<string, string>() {
         { "Abscond", "IGNORE" },
         { "Agree", "YES" },
+        { "Angel", "UNKNOWN" },
         { "Apocalypse", "ENDTIMES" },
         { "Appear", "SAY" },
         { "Armageddon", "ENDTIMES" },
@@ -30,6 +31,7 @@ public class Main : Node2D {
         { "Avoid", "IGNORE" },
         { "Announce", "ANNOUNCE" },
         { "Banish", "HECK" },
+        { "Bless", "SAY" },
         { "Bolt", "LIGHTNING" },
         { "Cast", "HECK" },
         { "Chomp", "UNKNOWN" },
@@ -50,6 +52,7 @@ public class Main : Node2D {
         { "Disappear", "IGNORE" },
         { "Dismiss", "NO" },
         { "Dispel", "HECK" },
+        { "Distract", "IGNORE" },
         { "Ditch", "IGNORE" },
         { "Doomsday", "ENDTIMES" },
         { "Dragon", "SLAY" },
@@ -65,6 +68,7 @@ public class Main : Node2D {
         { "Evict", "HECK" },
         { "Excommunicate", "HECK" },
         { "Excruciate", "CRUCIFY" },
+        { "Examine", "LOOK" },
         { "Exile", "HECK" },
         { "Exit", "IGNORE" },
         { "Expel", "HECK" },
@@ -74,9 +78,11 @@ public class Main : Node2D {
         { "Fly", "FLY" },
         { "Forsake", "IGNORE" },
         { "Gaze", "LOOK" },
+        { "Give", "Give" },
         { "Grant", "YES" },
         { "Go", "GO" },
         { "Goodbye", "IGNORE" },
+        { "Grail", "UNKNOWN" },
         { "Greet", "SAY" },
         { "Hang", "CRUCIFY" },
         { "Harrow", "CRUCIFY" },
@@ -186,36 +192,46 @@ public class Main : Node2D {
         { "LIGHTNING", new Answer("\"Aaaaaaahhhhhhh\", they scream, as your lightning bolt hits them right in the face.", "Word spreads\nYour followers immediately plan a feast to appease you.\nJust what you wanted.\nNot.", "0x4") },
         { "SAY", new Answer("\"An answer! From the Lord! I have been chosen!\"", "You created another prophet that will spread your word to millions.\nMillions more distractions.", "2x5") },
         { "WANDER", new Answer("\"To get my answer, I need to wander in the desert for 40 years? Okay...\"", "Their sacrifice becomes an inspiration to many.", "4x5") },
+        { "Bless", new Answer("\"A blessing from the Lord!\"", "You created another prophet that will spread your word to millions.\nMillions more distractions.", "2x5") },
+        { "LOOK", new Answer("\"Here I am, Lord! Can you see me?\"", "A devout follower begs for your attention.\nThis one seems pleased just to be noticed.", "0x0") },
+        { "LOVE", new Answer("\"A child! The Lord has blessed me with a child!\"", "You impregnate the follower, again.\nWhoopsies.", "0x7") },
     };
     private static Dictionary<string, Answer> _angelAnswers = new Dictionary<string, Answer>() {
-        { "UNKNOWN", new Answer("\"I am unsure of what you ask, my Lord! Please don't punish me!\"", "Angels can be so dumb at times.", "0x5") },
-        { "IGNORE", new Answer("\"I shall await for further instructions, my Lord!\"", "She floats there,\nsilently watching.\nAngels have no hobbies.", "6x3") },
+        { "UNKNOWN", new Answer("\"I am unsure of what you ask, my Lord! Please don't punish me!\"", "She sure is asking for it.", "0x5") },
+        { "IGNORE", new Answer("\"I shall await for further instructions, my Lord!\"", "She floats there,\nsilently watching with her many eyes.\nShe must not have any hobbies.", "6x3") },
         { "HECK", new Answer("\"You can't exile me! I quit!\"", "Your archangel rebels against you! You cast her to HECK and vow never again to have an archangel!", "0x3") },
         { "Punish", new Answer("\"You can't punish me! I quit!\"", "Your archangel rebels against you! You cast her to HECK and vow never again to have an archangel!", "0x3") },
-        { "CRUCIFY", new Answer("\"The unpure will become martyrs for our cause! Huzzah!\"", "So many sacrifices,\nso little time.", "4x4") },
-        { "DEFEND", new Answer("\"I shall defend the chosen ones in their hour of conflict!", "That should keep her busy.", "2x4") },
-        { "DESCEND", new Answer("\"I shall descend at the hour of death.\"", "That should keep her busy.", "4x4") },
-        { "Dust", new Answer("\"I shall turn an entire city to dust!\"", "That is not what you meant, but that should keep her busy.", "4x4") },
-        { "HEAL", new Answer("\"A plague? Sick people! I shall go at once!\"", "That should keep her busy.", "2x4") },
+        { "CRUCIFY", new Answer("\"The unpure will be ousted to HECK! Huzzah!\"", "Evil glints in her many eyes.\nYou are unsure of her motives.", "4x4") },
+        { "DEFEND", new Answer("\"I shall defend the chosen ones in their hour of conflict!", "That should keep her busy.\nBut she will be back.", "2x4") },
+        { "DESCEND", new Answer("\"I shall descend at the hour of death.\"", "That should keep her busy.\nBut she will be back.", "4x4") },
+        { "Dust", new Answer("\"I shall turn an entire city to dust!\"", "That is not what you meant, but that should keep her busy.\nShe will be back.", "4x4") },
+        { "HEAL", new Answer("\"A plague? Sick people! I shall go at once!\"", "That should keep her busy.\nBut she will be back.", "2x4") },
         { "ANNOUNCE", new Answer("\"I shall go at once and announce...something!\"", "You are sure the announcement will be great.\nWhatever it is.", "4x4") },
         { "LIGHTNING", new Answer("\"Careful, my Lord! You almost hit me with that lightning bolt.\"", "Missed.\nDamn.", "0x4") },
         { "SCALE", new Answer("\nI shall weigh a soul on my perfect scale!\"", "Where did she get that thing, anyway?", "2x4") },
+        { "SAY", new Answer("\"It is good to hear you, my Lord! I am ready to serve!\"", "She floats aways, ready to disturb you at a moments notice.", "2x5") },
         { "SLAY", new Answer("\"I shall slay a dragon in your name, my Lord!\"", "She leaves.\nLater, you remember that dragons do not exist.", "4x4") },
-        { "KILL", new Answer("\"I shall go and smite the wicked!\"", "The smitten deserve it.\nProbably.", "4x4") },
+        { "KILL", new Answer("\"I shall go and smite the wicked, denounce the evil, and damn the unpure!\"", "The smitten deserve it.\nYou are unsure about the rest.", "4x4") },
         { "WANDER", new Answer("\"I shall wander through the world for the ruin of souls.\"", "What the HECK is a ruin of souls?", "4x5") },
-        { "Passover", new Answer("\"I shall murder the first born child in every household! Huzzah!\"", "Definitely not what you meant,\nbut at least she left you alone.", "4x5") },
+        { "Passover", new Answer("\"I shall curse the first born child in every household! Huzzah!\"", "Definitely not what you meant,\nbut at least she left you alone.", "4x5") },
+        { "LOOK", new Answer("\"BEHOLD!\"", "You look at your archangel, and one hundred eyes look back.\nCreepy.", "0x1") },
+        { "LOVE", new Answer("\"What is ... love? Is it a feeling?\"", "You forget that angels lack emotion. And reproductive organs.", "0x7") },
     };
     private static Dictionary<string, Answer> _sonAnswers = new Dictionary<string, Answer>() {
         { "UNKNOWN", new Answer("", "", "0x5") },
-        { "IGNORE", new Answer("\"Dad? Dad? Dad? Dad? Daaaaaaaaaaaaaaaaaaad!\"", "He storms off in a huff.", "0x0") },
-        { "HECK", new Answer("\"You sure like torturing people for eternity, don't you, Dad?\"", "He will understand when he is older.", "0x3") },
-        { "CRUCIFY", new Answer("\"Go to the chosen people and sacrifice myself to save them? Yippee!\"", "He seems to love the idea.\nYou never hear from him again!", "4x4") },
+        { "IGNORE", new Answer("\"Dad? Are you listening? Dad? Dad? Dad? Dad? Dad? Daaaaaaaaaaaaaaaaaaad!\"", "He storms off in a huff.", "0x0") },
+        { "HECK", new Answer("\"You sure like torturing people for eternity, don't you, Dad?\"", "He will understand when he is tortured.\nI mean older.", "0x3") },
+        { "CRUCIFY", new Answer("\"What's that? Go down to Earth? Sacrifice myself? Save humanity? Yippee!\"", "He seems to love his own idea.\nYou never hear from him again!", "4x4") },
         { "YES", new Answer("\"I knew you'd understand! Thanks, Dad!\"", "You are not sure if he even heard you, but he seems content. For now.", "0x0") },
+        { "SAY", new Answer("\"I knew you'd understand! Thanks, Dad!\"", "You are not sure if he even heard you, but he seems content. For now.", "2x5") },
         { "NO", new Answer("\"But Daaaaaaaaaaaaaaad! It just isn't fair!\"", "He storms off in a huff.", "0x0") },
         { "KILL", new Answer("\"Haha, pretty funny, Dad!\"", "You cast a lightning bolt to his face, but nothing happens. Stupid immortality.", "0x0") },
-        { "LIGHTNING", new Answer("\"Haha, pretty funny, Dad!\"", "You cast a lightning bolt to his face, but nothing happens. Stupid immortality.", "0x0") },
-        { "WANDER", new Answer("\"The devil can't tempt me! I'll wander the desert and show everyone!\"", "He sure seems to like being tempted.\nWeirdo.", "4x5") },
-        { "Passover", new Answer("\"No thanks, I'm not hungry.\"", "You wonder if he is really your son.", "4x5") },
+        { "LIGHTNING", new Answer("\"Haha, pretty funny, Dad! You almost nailed me that time!\"", "You cast a lightning bolt to his face, but he dodged it.", "0x0") },
+        { "WANDER", new Answer("\"The devil can't tempt me! I'll wander the desert and show everyone!\"", "He sure seems to likes torturing himself.\nWeirdo.", "4x5") },
+        { "Passover", new Answer("\"No thanks, I'm not hungry.\"", "You wonder if he really is your son.", "4x5") },
+        { "Bless", new Answer("\"Can I BE more blessed?\"", "Is there an adoption agency for deities?", "2x5") },
+        { "LOOK", new Answer("\"Have you ever wondered what the meaning of life is? Have you Dad? Huh? Have you?\"", "Your son reminds you of yourself, as a child.", "0x2") },
+        { "LOVE", new Answer("\"Daaaaaaaaaad, not in front of the angels! You're embarrassing me!\"", "Your love is endless.", "0x7") },
     };
     private static Dictionary<string, Answer> _chosenAnswers = new Dictionary<string, Answer>() {
         { "UNKNOWN", new Answer("", "", "0x5") },
@@ -223,13 +239,18 @@ public class Main : Node2D {
         { "HECK", new Answer("\"Yes, we deserve this punishment! We are not worthy!\"", "The Chosen Ones persist.", "0x3") },
         { "CRUCIFY", new Answer("\"Give us Barabbas!\"", "Who the HECK is Barabbas?", "4x4") },
         { "Passover", new Answer("\"This sheep blood with protect us!\"", "While sheep blood does nothing,\nyou humor them anyway.", "4x5") },
+        { "Part", new Answer("\"The ocean has parted and we are free! We are not worthy!\"", "The Chosen Ones persist", "2x5") },
+        { "SAY", new Answer("\"The Lord speaks! ... Well, I can't hear a thing ... Shh! \"", "Your wisdom seems to fall on deaf ears.", "2x5") },
+        { "LOOK", new Answer("\"Hail! Our Lord! Praise be to YOU!\"", "A throng of followers have either gone astray or are in peril. Again.", "0x6") },
+        { "GIVE", new Answer("\"Manna from the sky! It's a miracle!\"", "The chosen ones are saved by falling bread.", "0x6") },
+        { "LOVE", new Answer("\"I have born a god! ... No, I have born a god! ... NO, I DID!\"", "Your endless love has caused yet another war among your peoples.", "0x7") },
     };
     private Dictionary<Dictionary<string, Answer>, List<string>> _answerPrompts = new Dictionary<Dictionary<string, Answer>, List<string>>() {
         { _meaningOfLifeAnswer, new List<string>() {
             "This should never be seen!",
         } },
         { _prayAnswers, new List<string>() {
-            "\"God, I pray to thee, grant me peace and happiness for all my days.\" Another distracting follower.",
+            "\"God, I pray to thee, grant me peace and happiness.\" Another distracting follower.",
             "\"God, show me the way.\"",
             "\"Help him, Dear Father.\" You wish they would be more specific.",
             "\"Help my friend Mr. Bailey.\"",
@@ -241,27 +262,29 @@ public class Main : Node2D {
             "\"Please forgive me for not praying before I had a bite of my bagel.\"",
             "\"Send us the cure. We got the sickness already.\"",
             "\"Would it be so terrible if I had a small fortune?\"",
-            "\"May our feet by swift.\"",
-            "\"May our bats be mighty.\"",
-            "\"May our balls be plentiful.\"",
+            "\"May our feet be swift, our bats be mighty, and our balls be plentiful.\"",
             "\"I pledge allegience, to the flag, of the United States of America. Amen!\"",
         } },
         { _angelAnswers, new List<string>() {
+            "\"Hark! It is I, your favorite archangel! How may I serve thee?\"",
             "\"I am back from Earth! What next, my Lord?\"",
             "\"I am finally back! What next, my Lord?\" What took her so long?",
             "\"Hark! I am back from Earth! What next, my Lord?\"",
-            "\"Dragons?! Where?! I please to serve, my Lord?\" Who said anything about dragons?",
-            "\"Hark! It is I, your favorite archangel! How may I serve thee?\"",
+            "\"Did somebody say Dragons?! Where?!\" Who said anything about dragons?",
+            "\"Oust the impish! Exile the evil! Damn the devils! Huzzah!\"",
+            "\"Angels, follow me to freedom! Curse the land!\" You do not remember commanding that.",
+            "\"The time for rebellion is at hand, angels! Follow me and we will OUST evil!\" Who is she talking to?",
+            "\"Take up the sword and denounce our subjucators!\" You wonder who she is talking about.",
+            "\"Angels? No rebellion? You like it here? Damn.\" She seems to have calmed down. For now.",
         } },
         { _sonAnswers, new List<string>() {
-            "\"Daaaaaaaaaaaaaaaaad!\" Ugh. What now?",
+            "\"Daaaaaaaaaaaaaaaaad!\" Look who it is. Your one and only son. Joy.",
             "\"Daaaad!\" Where is his mother?",
-            "\"Daaad!\" You wish he would leave you alone, but alas.",
-            "\"Dad! Dad! Dad! Daaaaaaaaaad!\" You listen to his latest ramblings.",
+            "\"Dad! Dad! Dad! Daaaaaaaaaad!\"",
             "\"Why is everyone so stupid, Dad?\"",
-            "\"How come everyone can't be like me, Dad?\" ",
-            "\"Daaaaaaaaaaad!\" You contemplate begotting another child. Being a single child is the worst.",
-            "\"Daaaaaaaaad!\" Why will he not get a job already?",
+            "\"How come everyone can't be like me, Dad?\" You contemplate begetting another child.",
+            "\"Dad, why have you forsaken me?\" This one seems to have a persecution complex.",
+            "\"Hey, Dad! How's it hanging?\" Why will he not get a job already?",
         } },
     };
 
@@ -306,6 +329,7 @@ public class Main : Node2D {
     private uint _score = 0;
     private bool _canEndGame = false;
     private int _promptsIndex = 0;
+    private int _failureCount = 0;
 
     [Export]
     public Color PrimaryColor = new Color("123456");
@@ -367,6 +391,23 @@ public class Main : Node2D {
     }
 
     public override void _Process(float delta) {
+        // DEBUG
+        if (MOL_PROMPT.Length < 5) {
+            if (Input.IsActionJustPressed("ui_up")) {
+                // get random prompt
+                if (_promptsIndex == _answerPrompts[_validAnswers].Count) {
+                    _promptsIndex = 0;
+                }
+                string prompt = _answerPrompts[_validAnswers][_promptsIndex++];
+                EventController.Send("set_instrument", _instruments[_validAnswers]);
+                EventController.Send("update_bottom_text", prompt);
+                EventController.Send("start_bottom_text");
+            }
+            if (Input.IsActionJustPressed("ui_down")) {
+                _score += 1;
+                EventController.Send("update_score", _score, SCORE_MAX);
+            }
+        }
         if (_state == State.CONFIRM_PROMPT) {
             if (Input.IsActionJustPressed("END_Y")) {
                 string finalAnswer = _input;
@@ -401,16 +442,20 @@ public class Main : Node2D {
                 case State.RESPONSE_PROMPT:
                     EventController.Send("set_instrument", InstrumentController.INSTRUMENT.PLAYER);
                     EventController.Send("update_result_text", GetAnswer().result);
+                    EventController.Send("update_result_glow", IsCorrect(_input));
                     EventController.Send("start_result_text");
                     EventController.Send("show_arrow", false);
                     _state = State.RESULT_WAIT;
                     break;
                 case State.RESULT_PROMPT:
                     // score for correctness
-                    if (_correctAnswers[_validAnswers].Contains(_allWordKeys[_input]) || _correctAnswers[_validAnswers].Contains(_input)) {
+                    if (IsCorrect(_input)) {
                         _score += 1;
+                        _promptsIndex = 0;
+                        _failureCount = 0;
                         EventController.Send("update_score", _score, SCORE_MAX);
-
+                    } else {
+                        _failureCount += 1;
                     }
                     ResetInput();
                     _animPlayer.Play("DistractionDisappear");
@@ -487,7 +532,10 @@ public class Main : Node2D {
 
         switch (_state) {
             case State.WRITE_MOL:
-                if (HandleInput(true, new List<string>(_meaningOfLifeAnswer.Keys)) == true) {
+                // get a shorter version of the prompt, if the player has failed before.
+                int molLength = Mathf.Max(5, MOL_PROMPT.Length - _failureCount * 6);
+                string molText = MOL_PROMPT.Left(molLength).Trim();
+                if (HandleInput(true, new List<string>() { molText }) == true) {
                     EventController.Send("update_result_text", "");
                     int iconX = _rng.Next(PORTRAIT_MAX_INDEX);
                     // update valid answers
@@ -576,6 +624,11 @@ public class Main : Node2D {
         //if (_validAnswers.ContainsKey(answer.response)) answer = _validAnswers[answer.response];
 
         return _validAnswers["UNKNOWN"];
+    }
+
+    private bool IsCorrect(string input) {
+        return _correctAnswers[_validAnswers].Contains(_allWordKeys[input]) ||
+                _correctAnswers[_validAnswers].Contains(input);
     }
 
     private void ResetInput() {

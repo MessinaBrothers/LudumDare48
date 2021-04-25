@@ -9,8 +9,8 @@ public class BottomText : RichTextLabel {
     private bool _isOn = false;
     private float _timer = 0f;
     private int _quotationMarkCount = 0;
-    private float DelayComma = 0f;
-    private float DelayPeriod = 0f;
+    private float DelayComma = 0.51f;
+    private float DelayPeriod = 0.94f;
     private string _originalText;
 
     public override void _EnterTree() {
@@ -25,43 +25,57 @@ public class BottomText : RichTextLabel {
         if (_isOn == false) return;
 
         if (Input.IsActionJustPressed("confirm") && VisibleCharacters > 4) {
-            VisibleCharacters = BbcodeText.Length;
+            VisibleCharacters = _originalText.Length - 1;
         }
 
         _timer += delta;
         if (_timer >= PrintCharTime) {
             _timer -= PrintCharTime;
 
-            EventController.Send("play_instrument");
             VisibleCharacters += 1;
-            if (VisibleCharacters - _quotationMarkCount < _originalText.Length) {
-                //GD.Print(_originalText[VisibleCharacters - _quotationMarkCount]);
-                switch (_originalText[VisibleCharacters - _quotationMarkCount]) {
+
+            EventController.Send("play_instrument");
+
+            //GD.Print(_originalText[VisibleCharacters - 1]);
+            //GD.Print(_quotationMarkCount);
+            //GD.Print(string.Format("{0} - {1} < {2}", VisibleCharacters, _quotationMarkCount, _originalText.Length));
+            if (VisibleCharacters < _originalText.Length) {
+                float delay = 0;
+                switch (_originalText[VisibleCharacters - 1]) {
                     case '\"':
                         _quotationMarkCount += 1;
-                        if (_quotationMarkCount > 1 && VisibleCharacters < _originalText.Length * 0.9f) {
+                        if (_quotationMarkCount > 1) {
                             EventController.Send("set_instrument", InstrumentController.INSTRUMENT.PLAYER);
                         }
                         break;
                     case ',':
-                        _timer -= DelayComma;
+                        delay += DelayComma;
                         break;
                     case '.':
-                        _timer -= DelayPeriod;
+                        delay += DelayPeriod;
                         break;
                     case '!':
-                        _timer -= DelayPeriod;
+                        delay += DelayPeriod;
                         break;
                     case '?':
-                        _timer -= DelayPeriod;
+                        delay += 0;
                         break;
+                }
+                if (delay > 0 &&
+                    VisibleCharacters < _originalText.Length &&
+                    _originalText[VisibleCharacters] == '\"') {
+                    VisibleCharacters += 2;
+                    _timer -= delay;
+                    EventController.Send("set_instrument", InstrumentController.INSTRUMENT.PLAYER);
                 }
             }
 
-            if (VisibleCharacters >= BbcodeText.Length) {
+            if (VisibleCharacters >= _originalText.Length) {
                 _isOn = false;
                 EventController.Send("done_bottom_text");
+                VisibleCharacters += 1;
             }
+
         }
     }
 
