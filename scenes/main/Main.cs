@@ -6,7 +6,8 @@ public class Main : Node2D {
 
     private static readonly uint SCORE_MAX = 3;
     private static readonly int PORTRAIT_MAX_INDEX = 3;
-    private static readonly string MOL_PROMPT = "The Meaning of Life is";
+    //private static readonly string MOL_PROMPT = "The Meaning of Life is";
+    private static readonly string MOL_PROMPT = "The";
 
     struct Answer {
         public Answer(string response, string result, string texture) {
@@ -23,12 +24,12 @@ public class Main : Node2D {
         { MOL_PROMPT, new Answer("", "", "") },
     };
     private static Dictionary<string, Answer> _prayAnswers = new Dictionary<string, Answer>() {
-        { "Damn", new Answer("\"Noooooooooooooooooo\"", "You damn them to HECK.\nYour other followers work even harder to please you.", "0x3") },
+        { "Damn", new Answer("\"Noooooooooooooooooo\", they scream, as you damn them to HECK.", "Your other followers work even harder to please you.", "0x3") },
         { "Deny", new Answer("\"Understood! It's all part of your plan.\"", "They seem undeterred.", "2x3") },
-        { "Grant", new Answer("You grant their request. \"Praise be God!\"", "They run to spread your Word.", "4x3") },
-        { "Ignite", new Answer("They spontaneously combust. \"Aaaarrrrgggghhhhhh\"", "Passersby witness this, and convert immediately.", "0x3") },
-        { "Ignore", new Answer("You ignore them. \"Hello? Are you there?\"", "Your followers are dismayed, and convert to a religion with a more responsive deity.", "6x3") },
-        { "Lightning", new Answer("\"Aaaarrrrgggghhhhhh\" Your lightning bolt hits them right in the face. ", "Passersby witness this, and convert immediately.", "0x4") },
+        { "Grant", new Answer("\"Praise be to YOU!\"", "They are pleased, and spend the rest of their life spreading your Word.", "4x3") },
+        { "Ignite", new Answer("\"Aaaarrrrrrrgggghhhhhh\", they scream, as they spontaneously combust.", "Passersby witness this miracle, and immediately convert.", "0x3") },
+        { "Ignore", new Answer("\"Hello?                   \nAre you there?\"", "Your followers become dismayed, and convert to a religion with a more responsive deity!", "6x3") },
+        { "Lightning", new Answer("\"Aaaaaaahhhhhhh\", they scream, as your lightning bolt hits them right in the face.", "Passersby witness this, and immediately convert.", "0x4") },
         { "Never", new Answer("Deny", "", "") },
         { "No", new Answer("Deny", "", "") },
         { "Okay", new Answer("Grant", "", "") },
@@ -50,6 +51,7 @@ public class Main : Node2D {
         { "Heal", new Answer("There is a plague. Go cure the people. \"Yes, my Lord!\"", "That should keep her busy.", "2x4") },
         { "Hell", new Answer("You cast your archangel into Hell. \"Oof!\"", "That should shut her up!", "0x3") },
         { "Herald", new Answer("Go and herald your replacement. \"Yes, my Lord!\"", "Your archangel retires, but another soon replaces her. Damn it.", "4x4") },
+        { "Ignore", new Answer("\"I shall await for further instructions, my Lord!\"", "She floats there,\nsilently watching.", "6x3") },
         { "Safeguard", new Answer("Safeguard against the wickedness. \"Yes, my Lord!\"", "Whatever that means.", "2x4") },
         { "Scale", new Answer("Weigh a soul on that perfect scale of yours. \"Yes, my Lord!\"", "Where did he get that thing, anyway?", "2x4") },
         { "Slay", new Answer("Go slay a dragon. \"Yes, my Lord!\"", "Later, you remember that dragons do not exist.", "4x4") },
